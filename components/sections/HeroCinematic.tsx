@@ -158,6 +158,9 @@ export default function HeroCinematic() {
           );
           tl.to(taglineRef.current, { opacity: 1, y: 0, duration: 0.4 }, 1.9);
 
+          // Frame 3 → 4 crossfade: fade frame3 out as frame4 comes in
+          tl.to(frame3Ref.current, { opacity: 0, duration: 0.25 }, 2.1);
+
           // Frame 4: full hero (2.3 – 3.6)
           tl.to(frame4Ref.current, { opacity: 1, duration: 0.3 }, 2.3);
           tl.to(availRef.current, { opacity: 1, y: 0, duration: 0.35 }, 2.4);
