@@ -3,7 +3,17 @@
     "allow": [
       "Bash(git init *)",
       "Bash(git add *)",
-      "Bash(git -c user.email=dev@local -c user.name=dev commit -q -m \"Initial portfolio scaffold\")"
+      "Bash(git -c user.email=dev@local -c user.name=dev commit -q -m \"Initial portfolio scaffold\")",
+      "Bash(npm run *)",
+      "Bash(curl -s -o /tmp/page.html -w \"HTTP %{http_code}\\\\n\" http://localhost:3000)",
+      "Read(//tmp/**)",
+      "Bash(curl -s -o /tmp/p.html -w \"HTTP %{http_code}\\\\n\" http://localhost:3000)",
+      "Bash(vercel --version)",
+      "Bash(npm install *)",
+      "Bash(curl -s -o /tmp/vercel_page.html -w \"HTTP %{http_code}\\\\n\" https://portfolio-nine-omega-8ya6kq6l0q.vercel.app/)",
+      "Bash(git -C /d/PORTF add -A)",
+      "Bash(git -C /d/PORTF -c user.email=dev@local -c user.name=dev commit -m 'feat: build all sections with real content *)",
+      "Bash(git -C /d/PORTF push origin master)"
     ]
   }
 }
