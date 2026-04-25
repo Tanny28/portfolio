@@ -1,11 +1,10 @@
-import { createGroq } from "@ai-sdk/groq";
-import { streamText } from "ai";
+import Groq from "groq-sdk";
 import { NextRequest } from "next/server";
 import { TANMAY_CONTEXT } from "@/lib/agent-context";
 
-const groqClient = createGroq({ apiKey: process.env.GROQ_API_KEY });
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
-// In-memory rate limit: max 20 messages per IP per hour
+// In-memory rate limit: 20 requests per IP per hour
 const rateLimits = new Map<string, { count: number; resetAt: number }>();
 
 function checkRateLimit(ip: string): boolean {
@@ -20,25 +19,41 @@ function checkRateLimit(ip: string): boolean {
   return true;
 }
 
+type ChatMessage = { role: "user" | "assistant" | "system"; content: string };
+
 export async function POST(req: NextRequest) {
   const ip =
     req.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "unknown";
 
   if (!checkRateLimit(ip)) {
-    return new Response("Rate limit exceeded. Try again later.", {
-      status: 429,
-    });
+    return new Response("Rate limit exceeded. Try again later.", { status: 429 });
   }
 
-  const { messages } = await req.json();
+  const { messages }: { messages: ChatMessage[] } = await req.json();
 
-  const result = await streamText({
-    model: groqClient("llama-3.3-70b-versatile"),
-    system: TANMAY_CONTEXT,
-    messages,
+  const completion = await groq.chat.completions.create({
+    model: "llama-3.3-70b-versatile",
+    messages: [{ role: "system", content: TANMAY_CONTEXT }, ...messages],
+    stream: true,
     temperature: 0.6,
-    maxTokens: 500,
+    max_tokens: 500,
   });
 
-  return result.toDataStreamResponse();
+  const encoder = new TextEncoder();
+  const stream = new ReadableStream({
+    async start(controller) {
+      for await (const chunk of completion) {
+        const text = chunk.choices[0]?.delta?.content ?? "";
+        if (text) controller.enqueue(encoder.encode(text));
+      }
+      controller.close();
+    },
+  });
+
+  return new Response(stream, {
+    headers: {
+      "Content-Type": "text/plain; charset=utf-8",
+      "Cache-Control": "no-cache",
+    },
+  });
 }

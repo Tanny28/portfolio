@@ -18,7 +18,8 @@
       "Bash(node -e \"const d=JSON.parse\\(require\\('fs'\\).readFileSync\\('/dev/stdin','utf8'\\)\\);console.log\\(d.slice\\(-5\\).join\\('\\\\n'\\)\\)\")",
       "Bash(curl -s -o /tmp/p2.html -w \"HTTP %{http_code}\\\\n\" http://localhost:3000)",
       "Bash(git -c user.email=dev@local -c user.name=dev commit -m 'feat: chat agent, drone architecture diagram, cinematic hero *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(git -c user.email=dev@local -c user.name=dev commit -m 'fix: replace ai/@ai-sdk/groq with groq-sdk to fix LanguageModelV1/V3 mismatch *)"
     ]
   }
 }
