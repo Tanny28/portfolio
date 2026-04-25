@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
+import AgentChat from "@/components/chat/AgentChat";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -22,6 +23,7 @@ export default function RootLayout({
         <div className="grid-overlay" aria-hidden />
         {children}
         <div className="noise-overlay" aria-hidden />
+        <AgentChat />
       </body>
     </html>
   );

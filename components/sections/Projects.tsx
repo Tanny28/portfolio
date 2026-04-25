@@ -1,11 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ArrowUpRight, Github, Plus, X } from "lucide-react";
+import { ArrowUpRight, Github, Plus, X, Network, AlignLeft } from "lucide-react";
 import { projects, type Project } from "@/lib/data";
+import dynamic from "next/dynamic";
+
+const DroneArchitecture = dynamic(
+  () => import("@/components/projects/DroneArchitecture"),
+  { ssr: false, loading: () => <div className="h-40 rounded-lg bg-muted/30 animate-pulse" /> }
+);
 
 export default function Projects() {
   const [open, setOpen] = useState<Project | null>(null);
+  const [showDiagram, setShowDiagram] = useState(true);
 
   useEffect(() => {
     if (!open) return;
@@ -123,6 +130,27 @@ export default function Projects() {
                   </span>
                 ))}
               </div>
+
+              {/* Drone architecture diagram */}
+              {open.slug === "drone-security-analyst" && (
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => setShowDiagram(true)}
+                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md font-mono text-xs border transition-colors ${showDiagram ? "border-accent text-accent bg-accent/10" : "border-border text-muted-foreground"}`}
+                    >
+                      <Network className="size-3.5" /> View Architecture
+                    </button>
+                    <button
+                      onClick={() => setShowDiagram(false)}
+                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md font-mono text-xs border transition-colors ${!showDiagram ? "border-accent text-accent bg-accent/10" : "border-border text-muted-foreground"}`}
+                    >
+                      <AlignLeft className="size-3.5" /> View Details
+                    </button>
+                  </div>
+                  {showDiagram && <DroneArchitecture />}
+                </div>
+              )}
 
               {open.embed && (
                 <div className="rounded-md overflow-hidden border border-border">

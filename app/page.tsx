@@ -1,4 +1,8 @@
-import Hero from "@/components/sections/Hero";
+import dynamic from "next/dynamic";
+const Hero = dynamic(() => import("@/components/sections/HeroCinematic"), {
+  ssr: false,
+  loading: () => <div className="min-h-screen" />,
+});
 import About from "@/components/sections/About";
 import Projects from "@/components/sections/Projects";
 import Skills from "@/components/sections/Skills";

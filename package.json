@@ -22,7 +22,10 @@
     "clsx": "^2.1.1",
     "tailwind-merge": "^2.5.4",
     "class-variance-authority": "^0.7.1",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "ai": "^3.4.33",
+    "@ai-sdk/groq": "^3.0.35",
+    "@gsap/react": "^2.1.1"
   },
   "devDependencies": {
     "@types/node": "^20.17.6",
