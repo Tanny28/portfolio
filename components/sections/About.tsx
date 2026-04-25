@@ -1,3 +1,6 @@
+import { Suspense } from "react";
+import GitHubTicker from "@/components/about/GitHubTicker";
+
 const STATS: Array<[string, string]> = [
   ["University", "Pimpri Chinchwad University, Pune"],
   ["Degree", "B.Tech AI-ML · Class of 2027"],
@@ -48,6 +51,11 @@ export default function About() {
               .
             </p>
           </div>
+
+          {/* GitHub activity ticker */}
+          <Suspense fallback={null}>
+            <GitHubTicker />
+          </Suspense>
         </div>
 
         <div className="relative rounded-lg border border-border bg-card/60 backdrop-blur p-6 md:p-8 font-mono text-sm">

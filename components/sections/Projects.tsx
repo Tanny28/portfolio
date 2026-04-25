@@ -10,6 +10,26 @@ const DroneArchitecture = dynamic(
   { ssr: false, loading: () => <div className="h-40 rounded-lg bg-muted/30 animate-pulse" /> }
 );
 
+function handleTilt(e: React.MouseEvent<HTMLButtonElement>) {
+  if (window.matchMedia("(pointer: coarse)").matches) return;
+  const el = e.currentTarget;
+  const r = el.getBoundingClientRect();
+  const x = (e.clientX - r.left) / r.width - 0.5;
+  const y = (e.clientY - r.top) / r.height - 0.5;
+  el.style.transition = "border-color 0.3s ease, box-shadow 0.3s ease";
+  el.style.transform = `perspective(800px) rotateX(${(-y * 8).toFixed(2)}deg) rotateY(${(x * 8).toFixed(2)}deg)`;
+  const glow = el.querySelector<HTMLElement>(".card-glow");
+  if (glow) {
+    glow.style.background = `radial-gradient(240px circle at ${(e.clientX - r.left).toFixed(0)}px ${(e.clientY - r.top).toFixed(0)}px, rgba(0,212,255,0.09), transparent 70%)`;
+  }
+}
+
+function resetTilt(e: React.MouseEvent<HTMLButtonElement>) {
+  const el = e.currentTarget;
+  el.style.transition = "";
+  el.style.transform = "";
+}
+
 export default function Projects() {
   const [open, setOpen] = useState<Project | null>(null);
   const [showDiagram, setShowDiagram] = useState(true);
@@ -43,33 +63,41 @@ export default function Projects() {
             <button
               key={p.slug}
               onClick={() => setOpen(p)}
-              className={`group text-left rounded-lg border bg-card/60 backdrop-blur p-6 transition-all hover:border-accent/60 hover:shadow-[0_0_32px_rgba(0,212,255,0.12)] ${
+              onMouseMove={handleTilt}
+              onMouseLeave={resetTilt}
+              className={`group text-left rounded-lg border bg-card/60 backdrop-blur card-tilt hover:border-accent/60 hover:shadow-[0_0_32px_rgba(0,212,255,0.12)] ${
                 p.highlight ? "border-accent/40" : "border-border"
-              } ${p.highlight ? "md:col-span-1" : ""}`}
+              }`}
             >
-              <div className="flex items-start justify-between gap-4 mb-3">
-                <div className="font-mono text-[10px] text-muted-foreground tracking-widest">
-                  {p.highlight ? "★ FEATURED · " : ""}
-                  {p.year} · {p.status.toUpperCase()}
+              {/* Cursor glow layer */}
+              <div className="card-glow z-0" aria-hidden />
+
+              {/* Content */}
+              <div className="relative z-[1] p-6">
+                <div className="flex items-start justify-between gap-4 mb-3">
+                  <div className="font-mono text-[10px] text-muted-foreground tracking-widest">
+                    {p.highlight ? "★ FEATURED · " : ""}
+                    {p.year} · {p.status.toUpperCase()}
+                  </div>
+                  <ArrowUpRight className="size-4 text-muted-foreground group-hover:text-accent transition-colors shrink-0" />
                 </div>
-                <ArrowUpRight className="size-4 text-muted-foreground group-hover:text-accent transition-colors" />
-              </div>
-              <h3 className="font-sans text-xl font-semibold mb-2">{p.title}</h3>
-              <p className="text-sm text-muted-foreground mb-4">{p.tagline}</p>
-              <div className="flex flex-wrap gap-1.5">
-                {p.stack.slice(0, 6).map((s) => (
-                  <span
-                    key={s}
-                    className="font-mono text-[10px] px-2 py-0.5 rounded border border-border bg-background/60 text-foreground/70"
-                  >
-                    {s}
-                  </span>
-                ))}
-                {p.stack.length > 6 && (
-                  <span className="font-mono text-[10px] px-2 py-0.5 text-muted-foreground">
-                    +{p.stack.length - 6}
-                  </span>
-                )}
+                <h3 className="font-sans text-xl font-semibold mb-2">{p.title}</h3>
+                <p className="text-sm text-muted-foreground mb-4">{p.tagline}</p>
+                <div className="flex flex-wrap gap-1.5">
+                  {p.stack.slice(0, 6).map((s) => (
+                    <span
+                      key={s}
+                      className="font-mono text-[10px] px-2 py-0.5 rounded border border-border bg-background/60 text-foreground/70 group-hover:border-accent/30 group-hover:text-accent/80 transition-colors"
+                    >
+                      {s}
+                    </span>
+                  ))}
+                  {p.stack.length > 6 && (
+                    <span className="font-mono text-[10px] px-2 py-0.5 text-muted-foreground">
+                      +{p.stack.length - 6}
+                    </span>
+                  )}
+                </div>
               </div>
             </button>
           ))}
@@ -80,8 +108,8 @@ export default function Projects() {
             rel="noreferrer"
             className="group rounded-lg border border-dashed border-border bg-card/30 p-6 flex flex-col items-center justify-center gap-3 text-center hover:border-accent/60 hover:bg-card/60 transition-all min-h-[200px]"
           >
-            <div className="size-10 rounded-full border border-border flex items-center justify-center group-hover:border-accent/60">
-              <Plus className="size-5 text-muted-foreground group-hover:text-accent" />
+            <div className="size-10 rounded-full border border-border flex items-center justify-center group-hover:border-accent/60 transition-colors">
+              <Plus className="size-5 text-muted-foreground group-hover:text-accent transition-colors" />
             </div>
             <div className="font-mono text-sm text-foreground/80">More on GitHub</div>
             <div className="font-mono text-[11px] text-muted-foreground inline-flex items-center gap-1">
@@ -174,20 +202,14 @@ export default function Projects() {
                 </div>
               )}
 
-              {open.problem && (
-                <Field label="Problem" value={open.problem} />
-              )}
-              {open.solution && (
-                <Field label="Solution" value={open.solution} />
-              )}
+              {open.problem && <Field label="Problem" value={open.problem} />}
+              {open.solution && <Field label="Solution" value={open.solution} />}
               {open.impact && (
                 <div>
                   <div className="font-mono text-[10px] text-accent tracking-widest mb-2">
                     IMPACT
                   </div>
-                  <div className="font-mono text-sm text-foreground/90">
-                    {open.impact}
-                  </div>
+                  <div className="font-mono text-sm text-foreground/90">{open.impact}</div>
                 </div>
               )}
 
