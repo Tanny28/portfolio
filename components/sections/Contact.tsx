@@ -1,4 +1,7 @@
-import { Mail, Github, Linkedin, MapPin, Phone } from "lucide-react";
+import { Mail, Github, Linkedin, MapPin, Phone, FileDown } from "lucide-react";
+
+const RESUME_URL =
+  "https://drive.google.com/file/d/1KfxjjiMhkdyFT5klRtLHIW6HysfmD5mc/view?usp=sharing";
 
 const LINKS = [
   {
@@ -16,8 +19,8 @@ const LINKS = [
   {
     icon: Linkedin,
     label: "LinkedIn",
-    value: "linkedin.com/in/tanmay-shinde",
-    href: "https://www.linkedin.com/in/tanmay-shinde",
+    value: "linkedin.com/in/tanmay-shinde-840a05340",
+    href: "https://www.linkedin.com/in/tanmay-shinde-840a05340/",
   },
   {
     icon: Phone,
@@ -84,12 +87,20 @@ export default function Contact() {
           })}
         </div>
 
-        <div className="pt-6">
+        <div className="pt-6 flex flex-wrap items-center justify-center gap-3">
           <a
             href="mailto:shindetanmay282@gmail.com"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-accent text-background font-mono text-sm font-medium hover:shadow-[0_0_30px_rgba(0,212,255,0.5)] transition-shadow"
           >
             <Mail className="size-4" /> shindetanmay282@gmail.com
+          </a>
+          <a
+            href={RESUME_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-md border border-accent/60 text-accent font-mono text-sm font-medium hover:bg-accent/10 transition-colors"
+          >
+            <FileDown className="size-4" /> Download Resume
           </a>
         </div>
       </div>

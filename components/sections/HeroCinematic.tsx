@@ -1,8 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Trophy, Medal, Briefcase, FileText, Github, Mail } from "lucide-react";
+import { Trophy, Medal, Briefcase, FileText, Github, Mail, FileDown } from "lucide-react";
 import NeuralNet from "@/components/effects/NeuralNet";
+
+const RESUME_URL =
+  "https://drive.google.com/file/d/1KfxjjiMhkdyFT5klRtLHIW6HysfmD5mc/view?usp=sharing";
 
 const TERMINAL_LINES = [
   "> initializing portfolio.exe",
@@ -50,6 +53,14 @@ function HeroStatic() {
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-accent text-background font-mono text-sm font-medium hover:shadow-[0_0_24px_rgba(0,212,255,0.5)] transition-shadow"
           >
             <FileText className="size-4" /> View Projects
+          </a>
+          <a
+            href={RESUME_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md border border-accent/60 text-accent font-mono text-sm hover:bg-accent/10 transition-colors"
+          >
+            <FileDown className="size-4" /> Resume
           </a>
           <a
             href="https://github.com/Tanny28"
@@ -295,6 +306,9 @@ export default function HeroCinematic() {
             <div ref={ctaRef} className="flex flex-wrap items-center justify-center gap-3 pointer-events-auto" style={{ opacity: 0 }}>
               <a href="#projects" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-accent text-background font-mono text-sm font-medium hover:shadow-[0_0_24px_rgba(0,212,255,0.5)] transition-shadow">
                 <FileText className="size-4" /> View Projects
+              </a>
+              <a href={RESUME_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md border border-accent/60 text-accent hover:bg-accent/10 font-mono text-sm transition-colors">
+                <FileDown className="size-4" /> Resume
               </a>
               <a href="https://github.com/Tanny28" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md border border-border bg-card hover:border-accent/60 font-mono text-sm transition-colors">
                 <Github className="size-4" /> GitHub
