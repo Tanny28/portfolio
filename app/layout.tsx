@@ -1,11 +1,21 @@
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
+import { Instrument_Serif } from "next/font/google";
 import AgentChat from "@/components/chat/AgentChat";
 import Cursor from "@/components/effects/Cursor";
 import ScrollReveal from "@/components/effects/ScrollReveal";
 import KonamiEgg from "@/components/effects/KonamiEgg";
+import TopNav from "@/components/nav/TopNav";
 import "./globals.css";
+
+const instrumentSerif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  variable: "--font-instrument-serif",
+  display: "swap",
+});
 
 const SITE_URL = "https://portfolio-tanny28s-projects.vercel.app";
 
@@ -44,10 +54,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${GeistSans.variable} ${GeistMono.variable}`}
+      className={`${GeistSans.variable} ${GeistMono.variable} ${instrumentSerif.variable}`}
     >
       <body>
-        <div className="grid-overlay" aria-hidden />
+        <TopNav />
         {children}
         <div className="noise-overlay" aria-hidden />
         <AgentChat />
