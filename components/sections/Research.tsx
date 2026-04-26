@@ -4,24 +4,32 @@ export default function Research() {
   return (
     <section
       id="research"
-      className="relative min-h-screen px-6 py-24 flex flex-col items-center"
+      className="relative min-h-screen px-6 lg:px-10 py-32 flex flex-col items-center"
     >
       <div className="max-w-5xl w-full">
-        <div className="font-mono text-xs text-accent tracking-widest mb-3">
-          // RESEARCH
+        <div className="flex items-end justify-between gap-8 mb-16 lg:mb-20 pb-6 border-b border-foreground/10">
+          <div className="space-y-3">
+            <div className="font-mono text-[10px] tracking-[0.3em] uppercase text-muted-foreground">
+              § Published work
+            </div>
+            <h2 className="font-serif italic text-5xl md:text-6xl lg:text-7xl tracking-tight leading-[0.95]">
+              Research.
+            </h2>
+          </div>
+          <div className="hidden md:block font-mono text-[10px] tracking-[0.25em] uppercase text-muted-foreground/70 text-right">
+            <div>1 paper</div>
+            <div>2025</div>
+          </div>
         </div>
-        <h2 className="font-sans text-4xl md:text-5xl font-bold tracking-tight mb-12">
-          Published work.
-        </h2>
 
-        <div className="relative rounded-xl p-[1px] bg-gradient-to-br from-[#fbbf24] via-accent to-[#fbbf24] hover:shadow-[0_0_60px_rgba(251,191,36,0.18)] transition-shadow">
-          <div className="rounded-[11px] bg-card p-8 md:p-10 grid md:grid-cols-[1fr_auto] gap-8 items-center">
+        <div className="relative rounded-2xl p-[1px] bg-gradient-to-br from-[#fbbf24] via-accent to-[#fbbf24] hover:shadow-[0_0_60px_rgba(232,169,67,0.22)] transition-shadow">
+          <div className="rounded-[15px] bg-card p-8 md:p-10 grid md:grid-cols-[1fr_auto] gap-8 items-center">
             <div className="space-y-5">
-              <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-[#fbbf24]/40 bg-[#fbbf24]/10 font-mono text-[11px] tracking-widest text-[#fbbf24]">
-                <Trophy className="size-3.5" /> BEST RESEARCH PAPER · ICCTVB-25
+              <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-[#fbbf24]/40 bg-[#fbbf24]/10 font-mono text-[10px] tracking-[0.25em] uppercase text-[#fbbf24]">
+                <Trophy className="size-3.5" /> Best research paper · ICCTVB-25
               </div>
 
-              <h3 className="font-sans text-xl md:text-2xl font-semibold leading-snug">
+              <h3 className="font-serif italic text-3xl md:text-4xl tracking-tight leading-[1.1]">
                 Benchmarking Ensemble &amp; Hybrid ML Models for Renewable Energy
                 Forecasting
               </h3>
@@ -74,7 +82,7 @@ function LaurelBadge() {
           </linearGradient>
           <radialGradient id="goldFill" cx="0.5" cy="0.5" r="0.5">
             <stop offset="0%" stopColor="#1a1407" />
-            <stop offset="100%" stopColor="#0a0a0f" />
+            <stop offset="100%" stopColor="#0a0d1f" />
           </radialGradient>
         </defs>
 
