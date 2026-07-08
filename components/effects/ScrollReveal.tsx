@@ -6,7 +6,9 @@ export default function ScrollReveal() {
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const targets = document.querySelectorAll<HTMLElement>("section > div:first-child");
+    const targets = document.querySelectorAll<HTMLElement>(
+      "section > div:first-child, .reveal-target"
+    );
 
     const observer = new IntersectionObserver(
       (entries) => {

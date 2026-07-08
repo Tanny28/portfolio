@@ -16,7 +16,7 @@ export default function Icon() {
           alignItems: "center",
           justifyContent: "center",
           borderRadius: "50%",
-          border: "2px solid #00d4ff",
+          border: "2px solid #45e0c8",
         }}
       >
         <div
@@ -24,7 +24,7 @@ export default function Icon() {
             width: 10,
             height: 10,
             borderRadius: "50%",
-            background: "#00d4ff",
+            background: "#45e0c8",
           }}
         />
       </div>

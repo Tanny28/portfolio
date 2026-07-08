@@ -9,11 +9,13 @@
 
   body {
     @apply text-foreground font-sans antialiased;
-    background-color: #0a0d1f;
+    background-color: #05090d;
+    /* Faint blueprint grid — the only ambient decoration */
     background-image:
-      radial-gradient(ellipse 90% 60% at 75% -10%, rgba(232, 169, 67, 0.18), transparent 60%),
-      radial-gradient(ellipse 70% 50% at 10% 110%, rgba(60, 90, 160, 0.18), transparent 60%),
-      radial-gradient(ellipse 60% 40% at 50% 50%, rgba(232, 169, 67, 0.04), transparent 70%);
+      linear-gradient(rgba(69, 224, 200, 0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(69, 224, 200, 0.025) 1px, transparent 1px),
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(69, 224, 200, 0.06), transparent 60%);
+    background-size: 44px 44px, 44px 44px, 100% 100%;
     background-attachment: fixed;
     min-height: 100vh;
   }
@@ -37,7 +39,7 @@
   }
 }
 
-/* ── Project card 3D tilt + cursor glow ───────────────────────────────────── */
+/* ── Project card hover glow ──────────────────────────────────────────────── */
 .card-tilt {
   position: relative;
   transition: transform 0.45s ease, border-color 0.3s ease, box-shadow 0.3s ease;
@@ -56,14 +58,19 @@
   opacity: 1;
 }
 
-/* ── Soft text gradient for hero name ─────────────────────────────────────── */
-.text-gradient-warm {
-  background: linear-gradient(180deg, #f4ece0 0%, #c9b896 65%, #8a7758 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
+/* ── Detection-box corner brackets (hero photo signature) ─────────────────── */
+.bbox-corner {
+  position: absolute;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-color: theme("colors.accent.DEFAULT");
+  border-style: solid;
+  border-width: 0;
 }
+.bbox-corner-tl { top: -2px; left: -2px; border-top-width: 2px; border-left-width: 2px; }
+.bbox-corner-tr { top: -2px; right: -2px; border-top-width: 2px; border-right-width: 2px; }
+.bbox-corner-bl { bottom: -2px; left: -2px; border-bottom-width: 2px; border-left-width: 2px; }
+.bbox-corner-br { bottom: -2px; right: -2px; border-bottom-width: 2px; border-right-width: 2px; }
 
 @layer utilities {
   .noise-overlay {
@@ -71,7 +78,7 @@
     inset: 0;
     pointer-events: none;
     z-index: 50;
-    opacity: 0.05;
+    opacity: 0.04;
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
     mix-blend-mode: overlay;
   }

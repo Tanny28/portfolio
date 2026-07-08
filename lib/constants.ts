@@ -1,7 +1,8 @@
 export const SITE = {
-  name: "Portfolio",
-  description: "Personal portfolio",
-  url: "http://localhost:3000",
+  name: "Tanmay Shinde — AI/GenAI Engineer",
+  description:
+    "Final-year AI & ML engineer building production-grade GenAI systems: LLM apps, RAG, agents, and ML models.",
+  url: "https://tanmay-shinde-28.vercel.app",
 } as const;
 
 export const NAV_SECTIONS = [
@@ -10,5 +11,6 @@ export const NAV_SECTIONS = [
   "projects",
   "skills",
   "experience",
+  "achievements",
   "contact",
 ] as const;

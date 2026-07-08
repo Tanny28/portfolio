@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import { GeistSans } from "geist/font/sans";
-import { GeistMono } from "geist/font/mono";
-import { Instrument_Serif } from "next/font/google";
+import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import AgentChat from "@/components/chat/AgentChat";
 import Cursor from "@/components/effects/Cursor";
 import ScrollReveal from "@/components/effects/ScrollReveal";
@@ -9,25 +7,45 @@ import KonamiEgg from "@/components/effects/KonamiEgg";
 import TopNav from "@/components/nav/TopNav";
 import "./globals.css";
 
-const instrumentSerif = Instrument_Serif({
+const inter = Inter({
   subsets: ["latin"],
-  weight: "400",
-  style: ["normal", "italic"],
-  variable: "--font-instrument-serif",
+  variable: "--font-inter",
   display: "swap",
 });
 
-const SITE_URL = "https://portfolio-tanny28s-projects.vercel.app";
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space-grotesk",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains-mono",
+  display: "swap",
+});
+
+const SITE_URL = "https://tanmay-shinde-28.vercel.app";
 
 export const metadata: Metadata = {
-  title: "Tanmay Shinde · AI Engineer",
+  title: "Tanmay Shinde — AI/GenAI Engineer",
   description:
-    "B.Tech AI-ML student at PCU Pune building production Gen AI — LLM agents, RAG pipelines, and VLM-powered systems. Best Research Paper ICCTVB-25. Open to AI Engineer internships 2026.",
+    "Final-year AI & ML engineer building production-grade GenAI systems: LLM apps, RAG, agents, and ML models. Best Research Paper award · national hackathon Top 25.",
   metadataBase: new URL(SITE_URL),
+  keywords: [
+    "AI engineer",
+    "GenAI",
+    "LLM",
+    "RAG",
+    "agents",
+    "machine learning",
+    "Pune",
+    "portfolio",
+  ],
   openGraph: {
-    title: "Tanmay Shinde · AI Engineer",
+    title: "Tanmay Shinde — AI/GenAI Engineer",
     description:
-      "Building production Gen AI — LLM agents, RAG pipelines, and VLM-powered systems. Best Research Paper ICCTVB-25.",
+      "Final-year AI & ML engineer building production-grade GenAI systems: LLM apps, RAG, agents, and ML models.",
     url: SITE_URL,
     siteName: "Tanmay Shinde",
     type: "website",
@@ -35,9 +53,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Tanmay Shinde · AI Engineer",
+    title: "Tanmay Shinde — AI/GenAI Engineer",
     description:
-      "Building production Gen AI — LLM agents, RAG pipelines, and VLM-powered systems. Best Research Paper ICCTVB-25.",
+      "Final-year AI & ML engineer building production-grade GenAI systems: LLM apps, RAG, agents, and ML models.",
   },
   robots: {
     index: true,
@@ -54,7 +72,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${GeistSans.variable} ${GeistMono.variable} ${instrumentSerif.variable}`}
+      className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
     >
       <body>
         <TopNav />

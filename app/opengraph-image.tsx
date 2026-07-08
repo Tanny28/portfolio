@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "Tanmay Shinde · AI Engineer";
+export const alt = "Tanmay Shinde — AI/GenAI Engineer";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -10,7 +10,7 @@ export default function OGImage() {
     (
       <div
         style={{
-          background: "#0a0a0f",
+          background: "#05090d",
           width: "100%",
           height: "100%",
           display: "flex",
@@ -28,7 +28,7 @@ export default function OGImage() {
             position: "absolute",
             inset: 0,
             backgroundImage:
-              "linear-gradient(rgba(228,228,231,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(228,228,231,0.06) 1px,transparent 1px)",
+              "linear-gradient(rgba(69,224,200,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(69,224,200,0.05) 1px,transparent 1px)",
             backgroundSize: "48px 48px",
           }}
         />
@@ -36,20 +36,20 @@ export default function OGImage() {
         {/* Tag */}
         <div
           style={{
-            color: "#00d4ff",
+            color: "#45e0c8",
             fontSize: 14,
             letterSpacing: 6,
             marginBottom: 28,
             textTransform: "uppercase",
           }}
         >
-          // AI Engineer · Portfolio
+          // AI / GenAI Engineer · Portfolio
         </div>
 
         {/* Name */}
         <div
           style={{
-            color: "#e4e4e7",
+            color: "#d7e1ea",
             fontSize: 80,
             fontWeight: 700,
             letterSpacing: -3,
@@ -63,13 +63,13 @@ export default function OGImage() {
         {/* Tagline */}
         <div
           style={{
-            color: "#00d4ff",
+            color: "#45e0c8",
             fontSize: 22,
             marginBottom: 52,
             letterSpacing: 1,
           }}
         >
-          Building production Gen AI · LLM Agents · RAG · VLMs
+          I build AI systems that actually ship · LLM apps · RAG · Agents
         </div>
 
         {/* Badges */}
@@ -77,16 +77,16 @@ export default function OGImage() {
           style={{
             display: "flex",
             gap: 32,
-            color: "#71717a",
+            color: "#7b8b99",
             fontSize: 13,
           }}
         >
           <span>★ Best Paper · ICCTVB-25</span>
-          <span style={{ color: "#27272a" }}>·</span>
-          <span>GFG × Vultr Runner-Up</span>
-          <span style={{ color: "#27272a" }}>·</span>
-          <span>Python Dev @ Virtunexa</span>
-          <span style={{ color: "#27272a" }}>·</span>
+          <span style={{ color: "#1c2733" }}>·</span>
+          <span>Top 25 / 600+ · DP World × BITS</span>
+          <span style={{ color: "#1c2733" }}>·</span>
+          <span>SDE Intern @ Pixaflip</span>
+          <span style={{ color: "#1c2733" }}>·</span>
           <span>PCU Pune · 2027</span>
         </div>
       </div>

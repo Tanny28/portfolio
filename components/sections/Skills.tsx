@@ -1,83 +1,56 @@
-"use client";
-
-import { useState } from "react";
-import { skills, type SkillCategory } from "@/lib/data";
-
-const FILTERS: ("All" | SkillCategory)[] = [
-  "All",
-  "Gen AI",
-  "NLP & ML",
-  "Deep Learning",
-  "Backend",
-  "Data",
-  "Cloud",
-];
+import { skillGroups } from "@/lib/data";
 
 export default function Skills() {
-  const [filter, setFilter] = useState<(typeof FILTERS)[number]>("All");
-  const visible =
-    filter === "All" ? skills : skills.filter((s) => s.category === filter);
-
   return (
     <section
       id="skills"
-      className="relative min-h-screen px-6 py-24 flex flex-col items-center"
+      className="relative px-6 lg:px-10 py-28 flex flex-col items-center"
     >
       <div className="max-w-6xl w-full">
-        <div className="font-mono text-xs text-accent tracking-widest mb-3">
-          // SKILLS
+        <div className="flex items-end justify-between gap-8 mb-12 pb-5 border-b border-border">
+          <div className="font-mono text-[11px] tracking-[0.3em] uppercase text-accent">
+            // 03 · stack
+          </div>
+          <div className="hidden md:block font-mono text-[10px] tracking-[0.25em] uppercase text-muted-foreground">
+            {skillGroups.reduce((n, g) => n + g.skills.length, 0)} tools ·{" "}
+            {skillGroups.length} domains
+          </div>
         </div>
-        <h2 className="font-sans text-4xl md:text-5xl font-bold tracking-tight mb-10">
-          The stack.
+
+        <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight mb-12">
+          What I work with.
         </h2>
 
-        <div className="flex flex-wrap gap-2 mb-10">
-          {FILTERS.map((f) => (
-            <button
-              key={f}
-              onClick={() => setFilter(f)}
-              className={`px-3 py-1.5 rounded-md font-mono text-xs border transition-colors ${
-                filter === f
-                  ? "border-accent text-accent bg-accent/10"
-                  : "border-border text-muted-foreground hover:text-foreground hover:border-foreground/40"
-              }`}
-            >
-              {f}
-            </button>
+        <div className="grid md:grid-cols-2 gap-x-12 gap-y-10">
+          {skillGroups.map((group) => (
+            <div key={group.category} className="reveal-target">
+              <div className="flex items-baseline gap-3 mb-4">
+                <h3 className="font-mono text-xs tracking-[0.25em] uppercase text-foreground">
+                  {group.category}
+                </h3>
+                <span className="flex-1 h-px bg-border" aria-hidden />
+                <span className="font-mono text-[10px] text-muted-foreground">
+                  {group.skills.length}
+                </span>
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {group.skills.map((s) => (
+                  <span
+                    key={s}
+                    className="font-mono text-xs px-2.5 py-1 rounded border border-border bg-card/60 text-foreground/85 hover:border-accent/50 hover:text-accent transition-colors"
+                  >
+                    {s}
+                  </span>
+                ))}
+              </div>
+            </div>
           ))}
         </div>
 
-        <div className="flex flex-wrap gap-2">
-          {visible.map((s) => (
-            <span
-              key={s.name}
-              className={`group inline-flex items-center gap-2 px-3 py-1.5 rounded-md border bg-card/60 font-mono text-xs ${
-                s.level === "core"
-                  ? "border-accent/40 text-foreground"
-                  : "border-border text-foreground/80"
-              }`}
-            >
-              <span
-                className={`size-1.5 rounded-full ${
-                  s.level === "core" ? "bg-accent" : "bg-muted-foreground/60"
-                }`}
-              />
-              {s.name}
-              <span className="text-[9px] text-muted-foreground uppercase">
-                {s.level}
-              </span>
-            </span>
-          ))}
-        </div>
-
-        <div className="mt-8 font-mono text-[11px] text-muted-foreground flex items-center gap-4">
-          <span className="inline-flex items-center gap-1.5">
-            <span className="size-1.5 rounded-full bg-accent" /> core
-          </span>
-          <span className="inline-flex items-center gap-1.5">
-            <span className="size-1.5 rounded-full bg-muted-foreground/60" /> working
-          </span>
-        </div>
+        <p className="mt-12 font-mono text-[11px] text-muted-foreground">
+          practices: end-to-end delivery · peer review · model monitoring ·
+          clean modular code
+        </p>
       </div>
     </section>
   );

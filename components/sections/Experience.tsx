@@ -1,74 +1,87 @@
-import {
-  GraduationCap,
-  Briefcase,
-  Trophy,
-  Medal,
-  ScrollText,
-  type LucideIcon,
-} from "lucide-react";
-import { timeline, type TimelineKind } from "@/lib/data";
-
-const ICONS: Record<TimelineKind, LucideIcon> = {
-  Education: GraduationCap,
-  Internship: Briefcase,
-  Award: Trophy,
-  Hackathon: Medal,
-  Certifications: ScrollText,
-};
+import { experience, education } from "@/lib/data";
 
 export default function Experience() {
   return (
     <section
       id="experience"
-      className="relative min-h-screen px-6 py-24 flex flex-col items-center"
+      className="relative px-6 lg:px-10 py-28 flex flex-col items-center"
     >
       <div className="max-w-4xl w-full">
-        <div className="font-mono text-xs text-accent tracking-widest mb-3">
-          // EXPERIENCE
+        <div className="flex items-end justify-between gap-8 mb-12 pb-5 border-b border-border">
+          <div className="font-mono text-[11px] tracking-[0.3em] uppercase text-accent">
+            // 04 · experience
+          </div>
+          <div className="hidden md:block font-mono text-[10px] tracking-[0.25em] uppercase text-muted-foreground">
+            2 internships · 1 degree
+          </div>
         </div>
-        <h2 className="font-sans text-4xl md:text-5xl font-bold tracking-tight mb-12">
-          Timeline.
+
+        <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight mb-12">
+          Where I&apos;ve worked.
         </h2>
 
-        <ol className="relative border-l border-border ml-3 space-y-10">
-          {timeline.map((entry, idx) => {
-            const Icon = ICONS[entry.type];
-            return (
-              <li key={idx} className="relative pl-8">
-                <span className="absolute -left-[13px] top-1 flex items-center justify-center size-6 rounded-full border border-accent/40 bg-card">
-                  <Icon className="size-3 text-accent" />
-                </span>
-                <div className="font-mono text-[11px] text-muted-foreground tracking-widest mb-1">
-                  {entry.period} · {entry.type.toUpperCase()}
-                </div>
-                <h3 className="font-sans text-lg font-semibold">
-                  {entry.title}
-                </h3>
-                {entry.org && (
-                  <div className="text-sm text-foreground/80 mt-0.5">
-                    {entry.org}
-                  </div>
+        <ol className="relative border-l border-border ml-1 space-y-12">
+          {experience.map((job) => (
+            <li key={job.org} className="relative pl-8 reveal-target">
+              <span
+                className={`absolute -left-[5px] top-2 size-2.5 rounded-full ${
+                  job.current ? "bg-accent" : "bg-muted-foreground/50"
+                }`}
+              />
+              <div className="font-mono text-[11px] text-muted-foreground tracking-widest mb-2 flex flex-wrap items-center gap-2">
+                {job.period}
+                {job.current && (
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded border border-accent/40 bg-accent/10 text-accent text-[9px] tracking-[0.2em] uppercase">
+                    current
+                  </span>
                 )}
-                {entry.description && (
-                  <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
-                    {entry.description}
-                  </p>
-                )}
-                {entry.tags && (
-                  <div className="flex flex-wrap gap-1.5 mt-3">
-                    {entry.tags.map((t) => (
-                      <span
-                        key={t}
-                        className="font-mono text-[10px] px-2 py-0.5 rounded border border-border bg-background/60 text-foreground/70"
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </li>
-            );
-          })}
+              </div>
+              <h3 className="font-display text-xl font-semibold">
+                {job.title}
+              </h3>
+              <div className="text-sm text-foreground/80 mt-0.5">
+                {job.org} · {job.location}
+              </div>
+              <ul className="mt-3 space-y-2">
+                {job.points.map((pt, i) => (
+                  <li
+                    key={i}
+                    className="text-sm text-muted-foreground leading-relaxed pl-4 relative before:content-['▸'] before:absolute before:left-0 before:text-accent/60"
+                  >
+                    {pt}
+                  </li>
+                ))}
+              </ul>
+              <div className="flex flex-wrap gap-1.5 mt-4">
+                {job.tags.map((t) => (
+                  <span
+                    key={t}
+                    className="font-mono text-[10px] px-2 py-0.5 rounded border border-border bg-background/60 text-foreground/70"
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </li>
+          ))}
+
+          {/* Education */}
+          <li className="relative pl-8 reveal-target">
+            <span className="absolute -left-[5px] top-2 size-2.5 rounded-full bg-muted-foreground/50" />
+            <div className="font-mono text-[11px] text-muted-foreground tracking-widest mb-2">
+              Aug 2023 — {education.graduation.replace("Expected ", "")} ·
+              EDUCATION
+            </div>
+            <h3 className="font-display text-xl font-semibold">
+              {education.degree}
+            </h3>
+            <div className="text-sm text-foreground/80 mt-0.5">
+              {education.school} · CGPA {education.cgpa}
+            </div>
+            <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
+              Coursework: {education.coursework}
+            </p>
+          </li>
         </ol>
       </div>
     </section>

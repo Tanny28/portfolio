@@ -8,8 +8,8 @@ type Message = { id: string; role: Role; content: string };
 
 const CHIPS = [
   "What's your strongest project?",
-  "Tell me about the drone agent",
-  "What internships are you looking for?",
+  "How did you land the Pixaflip internship?",
+  "What roles are you looking for?",
 ];
 
 // ── Custom streaming hook ────────────────────────────────────────────────────

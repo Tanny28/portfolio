@@ -1,9 +1,9 @@
-import Hero from "@/components/sections/HeroEditorial";
+import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
 import Projects from "@/components/sections/Projects";
 import Skills from "@/components/sections/Skills";
 import Experience from "@/components/sections/Experience";
-import Research from "@/components/sections/Research";
+import Achievements from "@/components/sections/Achievements";
 import Contact from "@/components/sections/Contact";
 
 export default function Page() {
@@ -14,7 +14,7 @@ export default function Page() {
       <Projects />
       <Skills />
       <Experience />
-      <Research />
+      <Achievements />
       <Contact />
     </main>
   );
