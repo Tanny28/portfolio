@@ -306,7 +306,7 @@ export default function AgentChat() {
             </button>
           </div>
           <p className="font-mono text-[9px] text-muted-foreground mt-1.5 text-center">
-            Powered by Llama 3.3 via Groq · Responses may be inaccurate
+            Powered by GPT-OSS 120B via Groq · Responses may be inaccurate
           </p>
         </div>
       </div>

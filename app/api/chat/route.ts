@@ -42,7 +42,10 @@ export async function POST(req: NextRequest) {
   let completion;
   try {
     completion = await groq.chat.completions.create({
-      model: "llama-3.3-70b-versatile",
+      // llama-3.3-70b-versatile moved to Groq's Enterprise/contact-sales
+      // tier and 404s for standard developer-plan keys. gpt-oss-120b is
+      // the current self-serve production model with comparable quality.
+      model: "openai/gpt-oss-120b",
       messages: [{ role: "system", content: TANMAY_CONTEXT }, ...messages],
       stream: true,
       temperature: 0.6,
