@@ -17,9 +17,22 @@ Positioning: I build and ship LLM applications, agents, and ML systems end-to-en
 
 == CURRENT ROLE ==
 Software Development Intern @ Pixaflip Technologies Pvt. Ltd. (Jun 2026 – Present, Pune)
-- Ship AI/LLM product features end-to-end: prompt design, structured/validated JSON output, model integration, API delivery.
+- Built Pixa Agent, an open-source AI coding agent for VS Code, as a core deliverable — architecture, test suite, and security design.
+- Engineering Acadflip DigGen, a document-to-courseware pipeline with adversarial per-slide validation and multi-provider LLM routing across Groq, OpenAI, and Gemini.
 - Landed the role by cold-emailing, then building the Smart Lecture Analyzer in a 3-day challenge — converted into an offer.
 - Conducted and formally documented a technical interview for an AI/ML candidate; my scored evaluation report was used in the hiring decision.
+
+== PROJECT: Pixa Agent (2026, FEATURED — strongest engineering work) ==
+Open-source AI coding agent for VS Code. github.com/WisdomBoost-LLC/PixaAgent
+- Agent loop that plans multi-step coding tasks, reads the codebase, and edits multiple files — every change staged as an approvable diff before it touches disk.
+- Provider-agnostic core behind a single ModelProvider interface: any OpenAI-compatible endpoint (Ollama, vLLM, NVIDIA NIM, Groq), so it runs fully offline and vendor-free.
+- Semantic code search: custom chunker, embedding index, vector store. Security layer: sandboxed commands, secret redaction, audit logging.
+- 181 automated tests across 26 suites, CI-gated on every push. ~7,800 lines of TypeScript, MIT licensed.
+
+== PROJECT: Acadflip DigGen (2026, in development at Pixaflip) ==
+Document-to-courseware pipeline. Converts PDFs and slides into fact-checked study modules, decks, and grounded Q&A.
+- Adversarial per-slide validation: each generated slide is checked back against its source before it survives.
+- Multi-provider LLM routing across Groq, OpenAI, and Gemini so the pipeline degrades gracefully instead of failing with one provider.
 
 == RESEARCH INTERNSHIP ==
 Research Intern (Deep Learning) @ IEEE EMBS Pune Chapter (Jun 2026 – Jul 2026)
@@ -68,7 +81,9 @@ Stack: PyTorch, EfficientNet/ResNet/DenseNet ensemble, OASIS-1 + ADNI datasets.
 - NVIDIA NLP certification
 
 == SKILLS ==
-Languages: Python, SQL, JavaScript, PHP
+Languages: Python, TypeScript, JavaScript, SQL
+Agents & protocols: LLM agents, agentic tool-calling, Model Context Protocol (MCP), VS Code Extension API
+Testing: pytest, Vitest, CI-gated test suites
 GenAI/LLM: RAG, LangChain, LangGraph, LLM agents, prompt engineering, structured/JSON output, guardrails & grounding, Groq API, Gemini API, HuggingFace Transformers, Sentence Transformers, fine-tuning (LoRA/PEFT)
 Vector/Retrieval: FAISS, ChromaDB, embeddings, semantic search
 ML: deep learning, CNNs, ensemble learning, PyTorch, TensorFlow, scikit-learn, XGBoost, model evaluation, Grad-CAM explainability

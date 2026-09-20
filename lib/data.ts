@@ -13,9 +13,7 @@ export const PROFILE = {
   github: "https://github.com/Tanny28",
   githubHandle: "Tanny28",
   linkedin: "https://linkedin.com/in/tanmay-shinde-840a05340",
-  // TODO [ADD]: replace with hosted resume PDF URL when ready
-  resume:
-    "https://drive.google.com/file/d/1KfxjjiMhkdyFT5klRtLHIW6HysfmD5mc/view?usp=sharing",
+  resume: "/Tanmay_Shinde_Resume.pdf",
   graduation: "May 2027",
 } as const;
 
@@ -37,6 +35,52 @@ export type Project = {
 };
 
 export const projects: Project[] = [
+  {
+    slug: "pixa-agent",
+    title: "Pixa Agent",
+    role: "Open-source AI coding agent for VS Code",
+    tagline:
+      "An agent that plans multi-step coding tasks, reads the codebase, and edits files — staging every change as an approvable diff.",
+    stack: [
+      "TypeScript",
+      "VS Code Extension API",
+      "Agentic tool-calling",
+      "Vector search",
+      "Vitest",
+      "GitHub Actions",
+    ],
+    problem:
+      "Coding agents either lock you into one vendor's API or edit your files with no review step. Both are non-starters for real work on a real repo.",
+    solution:
+      "An agent loop that plans, reads the codebase, and edits multiple files — but stages every change as an approvable diff before it touches disk. The core is provider-agnostic behind a single ModelProvider interface, so any OpenAI-compatible endpoint works (Ollama, vLLM, NVIDIA NIM, Groq) including fully offline. Added semantic code search with a custom chunker, embedding index, and vector store, plus a security layer with sandboxed commands, secret redaction, and audit logging.",
+    impact:
+      "181 automated tests across 26 suites, CI-gated on every push · ~7,800 lines of TypeScript · MIT licensed and open source.",
+    recognition: "181 tests · 26 suites · MIT",
+    year: 2026,
+    highlight: true,
+    github: "https://github.com/WisdomBoost-LLC/PixaAgent",
+  },
+  {
+    slug: "acadflip-diggen",
+    title: "Acadflip DigGen",
+    role: "Document-to-courseware pipeline",
+    tagline:
+      "Turns PDFs and slide decks into fact-checked study modules, decks, and grounded Q&A.",
+    stack: [
+      "Multi-provider LLM routing",
+      "Groq",
+      "OpenAI",
+      "Gemini",
+      "Structured output",
+      "FastAPI",
+    ],
+    problem:
+      "Generating courseware from source documents is easy; generating courseware you can trust is not. Ungrounded summaries quietly invent facts that end up in front of students.",
+    solution:
+      "A pipeline with adversarial per-slide validation — each generated slide is checked back against its source before it survives — and multi-provider LLM routing across Groq, OpenAI, and Gemini so the pipeline degrades gracefully instead of failing when one provider does.",
+    recognition: "In development · Pixaflip",
+    year: 2026,
+  },
   {
     slug: "smart-lecture-analyzer",
     title: "Smart Lecture Analyzer",
@@ -188,19 +232,21 @@ export type SkillGroup = {
 
 export const skillGroups: SkillGroup[] = [
   {
-    category: "GenAI / LLM",
+    category: "GenAI / LLM / Agents",
     skills: [
+      "LLM agents",
+      "Agentic tool-calling",
       "RAG",
+      "Model Context Protocol (MCP)",
       "LangChain",
       "LangGraph",
-      "LLM agents",
       "Prompt engineering",
       "Structured / JSON output",
       "Guardrails & grounding",
       "Groq API",
+      "OpenAI API",
       "Gemini API",
       "HuggingFace Transformers",
-      "Sentence Transformers",
       "Fine-tuning (LoRA/PEFT)",
     ],
   },
@@ -227,28 +273,37 @@ export const skillGroups: SkillGroup[] = [
     skills: ["spaCy", "distilBERT", "Whisper (faster-whisper)"],
   },
   {
-    category: "Backend / MLOps",
+    category: "Backend / Infrastructure",
     skills: [
       "FastAPI",
       "Flask",
       "Pydantic",
+      "Node.js",
+      "Next.js",
       "REST APIs",
+      "PostgreSQL",
+      "SQLAlchemy",
+      "Redis",
       "Docker",
       "GitHub Actions (CI/CD)",
-      "PostgreSQL",
-      "Redis",
-      "Prometheus",
-      "Grafana",
-      "Streamlit",
+      "Linux",
     ],
   },
   {
     category: "Languages",
-    skills: ["Python", "SQL", "JavaScript", "PHP"],
+    skills: ["Python", "TypeScript", "JavaScript", "SQL"],
   },
   {
-    category: "Tools & Platforms",
-    skills: ["Git", "GitHub", "Linux", "Vercel", "Render", "OpenCV"],
+    category: "Testing & Tools",
+    skills: [
+      "pytest",
+      "Vitest",
+      "Git",
+      "GitHub",
+      "VS Code Extension API",
+      "Vercel",
+      "OpenCV",
+    ],
   },
 ];
 
@@ -269,11 +324,12 @@ export const experience: Experience[] = [
     org: "Pixaflip Technologies Pvt. Ltd.",
     location: "Pune, India",
     points: [
-      "Ship AI/LLM product features end-to-end: prompt design, structured/validated JSON output, model integration, and API delivery.",
+      "Built Pixa Agent, an open-source AI coding agent for VS Code, as a core deliverable — owning its architecture, test suite, and security design.",
+      "Engineering Acadflip DigGen, a document-to-courseware pipeline using adversarial per-slide validation and multi-provider LLM routing across Groq, OpenAI, and Gemini.",
       "Landed the role via self-initiated outreach — built the Smart Lecture Analyzer in a 3-day challenge and converted it into an offer.",
       "Conducted and formally documented a technical interview for an AI/ML candidate, delivering a scored evaluation report used in the hiring decision.",
     ],
-    tags: ["LLM features", "FastAPI", "Structured output", "Production"],
+    tags: ["Agents", "TypeScript", "LLM routing", "Testing", "Production"],
     current: true,
   },
   {
@@ -328,17 +384,18 @@ export const achievements: Achievement[] = [
   },
   {
     metric: "NVIDIA",
-    label: "NLP certification",
+    label: "Fundamentals of NLP",
     detail: "Also competed in the gnani.ai × NVIDIA Agentic AI Hackathon.",
   },
 ];
 
 export const bio = {
   short:
-    "I'm Tanmay, a final-year AI & ML engineering student and Software Development Intern at Pixaflip Technologies. I build LLM applications, agents, and ML systems end-to-end — and I've taken them to national hackathon podiums, a Best Research Paper award, and real users. I care about correctness, clean engineering, and things that actually work.",
+    "I'm Tanmay, a final-year AI & ML engineering student and Software Development Intern at Pixaflip Technologies, where I built Pixa Agent — an open-source AI coding agent for VS Code with 181 automated tests. I build LLM applications and autonomous agents end-to-end, with a test-and-review mindset.",
   long: [
     "I'm Tanmay Shinde, a final-year B.Tech student in Artificial Intelligence & Machine Learning at Pimpri Chinchwad University, Pune (graduating May 2027). I work as a Software Development Intern at Pixaflip Technologies — a role I landed by cold-emailing and building a purpose-made project in three days.",
-    "My focus is applied GenAI: LLM applications with structured output and guardrails, RAG pipelines, and autonomous agents — backed by solid Python and FastAPI engineering. I've placed Top 25 of 600+ teams at the DP World × BITS Pilani national hackathon, won a Best Research Paper award for ML-based forecasting, and completed a deep-learning research internship with IEEE EMBS on medical imaging.",
+    "There I built Pixa Agent, an open-source AI coding agent for VS Code: an agent loop that plans multi-step tasks and edits files, staged behind approvable diffs, running on any OpenAI-compatible endpoint. 181 automated tests across 26 suites, CI-gated on every push.",
+    "My focus is applied GenAI — agents, RAG, structured output and guardrails — backed by solid Python and TypeScript engineering. I've placed Top 25 of 600+ teams at the DP World × BITS Pilani national hackathon, won a Best Research Paper award for ML-based forecasting, and completed a deep-learning research internship with IEEE EMBS on medical imaging.",
     "I build things that ship, not demos that die in notebooks.",
   ],
 } as const;

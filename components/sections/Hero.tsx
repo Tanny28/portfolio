@@ -7,9 +7,10 @@ import { PROFILE } from "@/lib/data";
 // The hero's signature: a benchmark run over Tanmay's track record.
 // Every line is a real, verifiable result.
 const EVAL_LINES = [
-  { name: "smart_lecture_analyzer", result: "shipped → internship offer" },
+  { name: "pixa_agent", result: "181 tests · 26 suites · open source" },
   { name: "tradexa", result: "top 25 / 600+ · national hackathon" },
   { name: "drone_security_agent", result: "5/5 challenge benchmark" },
+  { name: "smart_lecture_analyzer", result: "shipped → internship offer" },
   { name: "research_forecasting", result: "best paper · ICCTVB-25" },
 ];
 
