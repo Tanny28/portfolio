@@ -29,24 +29,47 @@ export async function POST(req: NextRequest) {
     return new Response("Rate limit exceeded. Try again later.", { status: 429 });
   }
 
+  if (!process.env.GROQ_API_KEY) {
+    console.error("[api/chat] GROQ_API_KEY is not set");
+    return new Response(
+      "The AI assistant isn't configured yet — email shindetanmay282@gmail.com in the meantime.",
+      { status: 503 }
+    );
+  }
+
   const { messages }: { messages: ChatMessage[] } = await req.json();
 
-  const completion = await groq.chat.completions.create({
-    model: "llama-3.3-70b-versatile",
-    messages: [{ role: "system", content: TANMAY_CONTEXT }, ...messages],
-    stream: true,
-    temperature: 0.6,
-    max_tokens: 500,
-  });
+  let completion;
+  try {
+    completion = await groq.chat.completions.create({
+      model: "llama-3.3-70b-versatile",
+      messages: [{ role: "system", content: TANMAY_CONTEXT }, ...messages],
+      stream: true,
+      temperature: 0.6,
+      max_tokens: 500,
+    });
+  } catch (err) {
+    console.error("[api/chat] Groq request failed:", err);
+    return new Response(
+      "The AI assistant is temporarily unavailable. Please try again shortly.",
+      { status: 502 }
+    );
+  }
 
   const encoder = new TextEncoder();
   const stream = new ReadableStream({
     async start(controller) {
-      for await (const chunk of completion) {
-        const text = chunk.choices[0]?.delta?.content ?? "";
-        if (text) controller.enqueue(encoder.encode(text));
+      try {
+        for await (const chunk of completion) {
+          const text = chunk.choices[0]?.delta?.content ?? "";
+          if (text) controller.enqueue(encoder.encode(text));
+        }
+      } catch (err) {
+        console.error("[api/chat] Stream interrupted:", err);
+        controller.enqueue(encoder.encode("\n\n(Response cut off — please try again.)"));
+      } finally {
+        controller.close();
       }
-      controller.close();
     },
   });
 
