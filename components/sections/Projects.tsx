@@ -4,7 +4,21 @@ import { useEffect, useState } from "react";
 import { ArrowUpRight, Github, X } from "lucide-react";
 import { projects, currentlyBuilding, PROFILE, type Project } from "@/lib/data";
 import Section from "@/components/ui/Section";
+import FileDiff, { type DiffRow } from "@/components/ui/FileDiff";
 import dynamic from "next/dynamic";
+
+// Illustrates Pixa Agent's core mechanic — a staged, reviewable edit — using
+// its documented provider-agnostic design. Marked illustrative in the caption.
+const PIXA_DIFF: DiffRow[] = [
+  { old: 8, cur: 8, type: "ctx", text: "export async function complete(prompt: string) {" },
+  { old: 9, cur: null, type: "del", text: "  return openai.chat.completions.create({" },
+  { old: 10, cur: null, type: "del", text: '    model: "gpt-4o",' },
+  { old: null, cur: 9, type: "add", text: "  return provider.complete({" },
+  { old: null, cur: 10, type: "add", text: "    model: config.model," },
+  { old: 11, cur: 11, type: "ctx", text: "    messages: [{ role: \"user\", content: prompt }]," },
+  { old: 12, cur: 12, type: "ctx", text: "  });" },
+  { old: 13, cur: 13, type: "ctx", text: "}" },
+];
 
 const DroneArchitecture = dynamic(
   () => import("@/components/projects/DroneArchitecture"),
@@ -226,6 +240,19 @@ function CaseStudy({
               ))}
             </div>
           </header>
+
+          {project.slug === "pixa-agent" && (
+            <div className="grid md:grid-cols-[9rem_1fr] gap-x-6 gap-y-3 items-start">
+              <div className="font-mono text-[10px] tracking-[0.25em] uppercase text-muted-foreground pt-1">
+                Staged edit
+              </div>
+              <FileDiff
+                file="src/providers/complete.ts"
+                rows={PIXA_DIFF}
+                caption="Illustrative — every edit is staged as a reviewable diff before it touches disk."
+              />
+            </div>
+          )}
 
           {project.slug === "drone-security-analyst" && <DroneArchitecture />}
 
