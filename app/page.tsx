@@ -8,7 +8,7 @@ import Contact from "@/components/sections/Contact";
 
 export default function Page() {
   return (
-    <main className="relative z-10">
+    <main id="main" className="relative z-raised">
       <Hero />
       <About />
       <Projects />

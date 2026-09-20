@@ -5,81 +5,195 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    /* Nav clearance for anchor jumps */
+    scroll-padding-top: 6rem;
   }
 
   body {
     @apply text-foreground font-sans antialiased;
-    background-color: #05090d;
-    /* Faint blueprint grid — the only ambient decoration */
-    background-image:
-      linear-gradient(rgba(69, 224, 200, 0.025) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(69, 224, 200, 0.025) 1px, transparent 1px),
-      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(69, 224, 200, 0.06), transparent 60%);
-    background-size: 44px 44px, 44px 44px, 100% 100%;
+    background-color: #0c0c0d;
+    /* Off-axis radial wash — avoids the even 45° linear gradient tell */
+    background-image: radial-gradient(
+      ellipse 70% 45% at 72% -5%,
+      rgba(208, 154, 83, 0.07),
+      transparent 62%
+    );
     background-attachment: fixed;
-    min-height: 100vh;
+    min-height: 100dvh;
   }
 
   ::selection {
     background-color: theme("colors.accent.DEFAULT");
     color: theme("colors.background");
   }
+
+  /* Visible keyboard focus everywhere — accessibility requirement */
+  :focus-visible {
+    outline: 2px solid theme("colors.accent.DEFAULT");
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Data and figures read as data */
+  .tabular,
+  [class*="font-mono"] {
+    font-variant-numeric: tabular-nums;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
 }
 
-/* ── Scroll-reveal animations ─────────────────────────────────────────────── */
+@layer components {
+  /* Physical press feedback on every interactive control */
+  .pressable {
+    transition:
+      transform 0.18s cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 0.22s ease,
+      border-color 0.22s ease,
+      color 0.22s ease,
+      box-shadow 0.22s ease;
+  }
+  .pressable:active {
+    transform: translateY(1px) scale(0.985);
+  }
+
+  /* Cursor-tracked spotlight border for cards */
+  .spotlight {
+    position: relative;
+    isolation: isolate;
+  }
+  .spotlight::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: radial-gradient(
+      220px circle at var(--mx, 50%) var(--my, 0%),
+      rgba(208, 154, 83, 0.55),
+      transparent 70%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .spotlight:hover::before {
+    opacity: 1;
+  }
+
+  /* Skip link — hidden until focused */
+  .skip-link {
+    position: absolute;
+    left: 1rem;
+    top: -4rem;
+    z-index: 60;
+    padding: 0.625rem 1rem;
+    background: theme("colors.accent.DEFAULT");
+    color: theme("colors.background");
+    font-family: theme("fontFamily.mono");
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border-radius: 3px;
+    transition: top 0.2s ease;
+  }
+  .skip-link:focus {
+    top: 1rem;
+  }
+}
+
+/* ── Scroll-reveal: varied, not one uniform fade-up ───────────────────────── */
 @media (prefers-reduced-motion: no-preference) {
   .reveal-target {
     opacity: 0;
-    transform: translateY(28px);
-    transition: opacity 0.65s ease, transform 0.65s ease;
+    transform: translateY(20px);
+    transition:
+      opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .reveal-target.in-view {
     opacity: 1;
-    transform: translateY(0);
+    transform: none;
   }
-}
 
-/* ── Project card hover glow ──────────────────────────────────────────────── */
-.card-tilt {
-  position: relative;
-  transition: transform 0.45s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-}
+  /* Lateral variant — breaks the "everything rises" monotony */
+  .reveal-side {
+    opacity: 0;
+    transform: translateX(-18px);
+    transition:
+      opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal-side.in-view {
+    opacity: 1;
+    transform: none;
+  }
 
-.card-glow {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.card-tilt:hover .card-glow {
-  opacity: 1;
+  /* Stagger children by index */
+  .reveal-target[data-delay="1"],
+  .reveal-side[data-delay="1"] {
+    transition-delay: 70ms;
+  }
+  .reveal-target[data-delay="2"],
+  .reveal-side[data-delay="2"] {
+    transition-delay: 140ms;
+  }
+  .reveal-target[data-delay="3"],
+  .reveal-side[data-delay="3"] {
+    transition-delay: 210ms;
+  }
+  .reveal-target[data-delay="4"],
+  .reveal-side[data-delay="4"] {
+    transition-delay: 280ms;
+  }
 }
 
 /* ── Detection-box corner brackets (hero photo signature) ─────────────────── */
 .bbox-corner {
   position: absolute;
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   border-color: theme("colors.accent.DEFAULT");
   border-style: solid;
   border-width: 0;
 }
-.bbox-corner-tl { top: -2px; left: -2px; border-top-width: 2px; border-left-width: 2px; }
-.bbox-corner-tr { top: -2px; right: -2px; border-top-width: 2px; border-right-width: 2px; }
-.bbox-corner-bl { bottom: -2px; left: -2px; border-bottom-width: 2px; border-left-width: 2px; }
-.bbox-corner-br { bottom: -2px; right: -2px; border-bottom-width: 2px; border-right-width: 2px; }
+.bbox-corner-tl { top: -1px; left: -1px; border-top-width: 2px; border-left-width: 2px; }
+.bbox-corner-tr { top: -1px; right: -1px; border-top-width: 2px; border-right-width: 2px; }
+.bbox-corner-bl { bottom: -1px; left: -1px; border-bottom-width: 2px; border-left-width: 2px; }
+.bbox-corner-br { bottom: -1px; right: -1px; border-bottom-width: 2px; border-right-width: 2px; }
 
 @layer utilities {
+  /* Fixed grain overlay — breaks digital flatness */
   .noise-overlay {
     position: fixed;
     inset: 0;
     pointer-events: none;
     z-index: 50;
-    opacity: 0.04;
+    opacity: 0.045;
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
     mix-blend-mode: overlay;
+  }
+
+  /* Hairline rule that fades out — used as section spine */
+  .rule-fade {
+    background: linear-gradient(
+      to right,
+      theme("colors.border.strong"),
+      transparent
+    );
   }
 }

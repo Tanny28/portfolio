@@ -158,7 +158,7 @@ export default function AgentChat() {
         onClick={() => setOpen((v) => !v)}
         aria-label="Ask my AI"
         title="Ask my AI"
-        className="fixed bottom-6 right-6 z-50 flex flex-col items-center justify-center size-14 rounded-full bg-accent shadow-[0_0_24px_rgba(0,212,255,0.5)] hover:shadow-[0_0_36px_rgba(0,212,255,0.7)] transition-all active:scale-95"
+        className="fixed bottom-6 right-6 z-50 flex flex-col items-center justify-center size-14 rounded-full bg-accent shadow-[0_0_24px_rgba(208,154,83,0.38)] hover:shadow-[0_0_36px_rgba(208,154,83,0.55)] transition-all active:scale-95"
       >
         <MessageSquareCode className="size-5 text-background" />
         <span className="font-mono text-[9px] text-background leading-none mt-0.5">
@@ -169,9 +169,9 @@ export default function AgentChat() {
       {/* Panel */}
       <div
         className={`fixed z-50 transition-all duration-300 ease-out
-          sm:bottom-24 sm:right-6 sm:w-[400px] sm:h-[calc(100vh-7rem)] sm:rounded-xl
-          bottom-0 left-0 right-0 h-[85vh] rounded-t-xl
-          border border-accent/30 bg-card/95 backdrop-blur-md shadow-[0_0_60px_rgba(0,212,255,0.12)] flex flex-col
+          sm:bottom-24 sm:right-6 sm:w-[400px] sm:h-[calc(100dvh-7rem)] sm:rounded-xl
+          bottom-0 left-0 right-0 h-[85dvh] rounded-t-xl
+          border border-accent/30 bg-card/95 backdrop-blur-md shadow-[0_0_60px_rgba(208,154,83,0.10)] flex flex-col
           ${open ? "opacity-100 translate-y-0 sm:translate-y-0 pointer-events-auto" : "opacity-0 translate-y-4 sm:translate-y-2 pointer-events-none"}`}
       >
         {/* Header */}
@@ -300,7 +300,7 @@ export default function AgentChat() {
             <button
               onClick={submit}
               disabled={isLoading || !input.trim()}
-              className="size-[38px] shrink-0 flex items-center justify-center rounded-md bg-accent text-background disabled:opacity-40 hover:shadow-[0_0_12px_rgba(0,212,255,0.4)] transition-all"
+              className="size-[38px] shrink-0 flex items-center justify-center rounded-md bg-accent text-background disabled:opacity-40 hover:shadow-[0_0_12px_rgba(208,154,83,0.35)] transition-all"
             >
               <Send className="size-4" />
             </button>

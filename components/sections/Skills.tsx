@@ -1,57 +1,43 @@
+import Section from "@/components/ui/Section";
 import { skillGroups } from "@/lib/data";
 
 export default function Skills() {
+  const total = skillGroups.reduce((n, g) => n + g.skills.length, 0);
+
   return (
-    <section
-      id="skills"
-      className="relative px-6 lg:px-10 py-28 flex flex-col items-center"
-    >
-      <div className="max-w-6xl w-full">
-        <div className="flex items-end justify-between gap-8 mb-12 pb-5 border-b border-border">
-          <div className="font-mono text-[11px] tracking-[0.3em] uppercase text-accent">
-            // 03 · stack
-          </div>
-          <div className="hidden md:block font-mono text-[10px] tracking-[0.25em] uppercase text-muted-foreground">
-            {skillGroups.reduce((n, g) => n + g.skills.length, 0)} tools ·{" "}
-            {skillGroups.length} domains
-          </div>
-        </div>
+    <Section id="skills" label="Stack" meta={`${total} tools`}>
+      <h3 className="font-display text-[clamp(2rem,4.5vw,3.25rem)] font-bold tracking-[-0.035em] leading-[1.02] max-w-[14ch] reveal-target">
+        What I work with.
+      </h3>
 
-        <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight mb-12">
-          What I work with.
-        </h2>
-
-        <div className="grid md:grid-cols-2 gap-x-12 gap-y-10">
-          {skillGroups.map((group) => (
-            <div key={group.category} className="reveal-target">
-              <div className="flex items-baseline gap-3 mb-4">
-                <h3 className="font-mono text-xs tracking-[0.25em] uppercase text-foreground">
-                  {group.category}
-                </h3>
-                <span className="flex-1 h-px bg-border" aria-hidden />
-                <span className="font-mono text-[10px] text-muted-foreground">
-                  {group.skills.length}
+      <dl className="mt-12 border-t border-border">
+        {skillGroups.map((group, i) => (
+          <div
+            key={group.category}
+            className="reveal-side grid md:grid-cols-[11rem_1fr] gap-x-8 gap-y-3 py-6 border-b border-border"
+            data-delay={String((i % 4) + 1)}
+          >
+            <dt className="font-mono text-[10px] tracking-[0.22em] uppercase text-muted-foreground pt-1.5">
+              {group.category}
+            </dt>
+            <dd className="flex flex-wrap gap-1.5">
+              {group.skills.map((s) => (
+                <span
+                  key={s}
+                  className="font-mono text-[11.5px] px-2.5 py-1 rounded-sm border border-border text-foreground/80 transition-colors duration-200 hover:border-accent/50 hover:text-accent"
+                >
+                  {s}
                 </span>
-              </div>
-              <div className="flex flex-wrap gap-1.5">
-                {group.skills.map((s) => (
-                  <span
-                    key={s}
-                    className="font-mono text-xs px-2.5 py-1 rounded border border-border bg-card/60 text-foreground/85 hover:border-accent/50 hover:text-accent transition-colors"
-                  >
-                    {s}
-                  </span>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
+              ))}
+            </dd>
+          </div>
+        ))}
+      </dl>
 
-        <p className="mt-12 font-mono text-[11px] text-muted-foreground">
-          practices: end-to-end delivery · peer review · model monitoring ·
-          clean modular code
-        </p>
-      </div>
-    </section>
+      <p className="mt-8 font-mono text-[11px] leading-relaxed text-muted-foreground max-w-[58ch]">
+        Practices: end-to-end delivery · peer review · model monitoring · clean
+        modular code
+      </p>
+    </Section>
   );
 }

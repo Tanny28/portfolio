@@ -8,60 +8,81 @@ const config: Config = {
     "./lib/**/*.{ts,tsx}",
   ],
   theme: {
-    container: {
-      center: true,
-      padding: "2rem",
-      screens: { "2xl": "1400px" },
-    },
     extend: {
       colors: {
-        background: "#05090d",
-        foreground: "#d7e1ea",
-        accent: {
-          DEFAULT: "#45e0c8",
-          glow: "rgba(69, 224, 200, 0.35)",
+        // Warm graphite base — one gray family, warm-tinted throughout.
+        background: "#0c0c0d",
+        surface: {
+          DEFAULT: "#141415",
+          raised: "#1a1a1b",
         },
-        warn: {
-          DEFAULT: "#d9a23f",
-          glow: "rgba(217, 162, 63, 0.35)",
+        foreground: "#e8e6e3",
+        // Single accent: oxidized brass. Low saturation (50%), reads as
+        // instrument metal rather than neon.
+        accent: {
+          DEFAULT: "#d09a53",
+          muted: "#8a6838",
+          glow: "rgba(208, 154, 83, 0.28)",
         },
         muted: {
-          DEFAULT: "#0e161d",
-          foreground: "#7b8b99",
+          DEFAULT: "#141415",
+          foreground: "#8d8880",
         },
-        border: "#1c2733",
+        border: {
+          DEFAULT: "#232322",
+          strong: "#32322f",
+        },
         card: {
-          DEFAULT: "#0b1117",
-          foreground: "#d7e1ea",
+          DEFAULT: "#141415",
+          foreground: "#e8e6e3",
         },
-        input: "#1c2733",
-        ring: "#45e0c8",
+        input: "#232322",
+        ring: "#d09a53",
         primary: {
-          DEFAULT: "#45e0c8",
-          foreground: "#05090d",
+          DEFAULT: "#d09a53",
+          foreground: "#0c0c0d",
         },
         secondary: {
-          DEFAULT: "#0e161d",
-          foreground: "#d7e1ea",
+          DEFAULT: "#1a1a1b",
+          foreground: "#e8e6e3",
         },
         destructive: {
-          DEFAULT: "#ef4444",
-          foreground: "#fafafa",
+          DEFAULT: "#c65f4b",
+          foreground: "#f5f3f0",
         },
         popover: {
-          DEFAULT: "#0b1117",
-          foreground: "#d7e1ea",
+          DEFAULT: "#141415",
+          foreground: "#e8e6e3",
         },
       },
       fontFamily: {
-        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
-        display: ["var(--font-space-grotesk)", "system-ui", "sans-serif"],
-        mono: ["var(--font-jetbrains-mono)", "ui-monospace", "monospace"],
+        sans: ["var(--font-geist-sans)", "system-ui", "sans-serif"],
+        display: ["var(--font-archivo)", "system-ui", "sans-serif"],
+        mono: ["var(--font-geist-mono)", "ui-monospace", "monospace"],
       },
+      // Varied radius — tight on inner chips, softer on containers.
       borderRadius: {
-        lg: "0.375rem",
-        md: "0.25rem",
-        sm: "0.125rem",
+        sm: "2px",
+        DEFAULT: "3px",
+        md: "5px",
+        lg: "8px",
+        xl: "14px",
+      },
+      // Named z-scale replaces arbitrary values.
+      zIndex: {
+        raised: "10",
+        sticky: "20",
+        nav: "40",
+        overlay: "50",
+        modal: "60",
+      },
+      // Tinted shadows carrying the background hue, not flat black.
+      boxShadow: {
+        lift: "0 1px 2px rgba(8,8,7,0.6), 0 8px 24px -8px rgba(8,8,7,0.8)",
+        deep: "0 24px 64px -16px rgba(8,8,7,0.9)",
+      },
+      transitionTimingFunction: {
+        spring: "cubic-bezier(0.22, 1, 0.36, 1)",
       },
     },
   },

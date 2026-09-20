@@ -10,84 +10,81 @@ export default function OGImage() {
     (
       <div
         style={{
-          background: "#05090d",
+          background: "#0c0c0d",
           width: "100%",
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
           justifyContent: "center",
-          padding: "60px",
+          padding: "84px 88px",
           fontFamily: "monospace",
           position: "relative",
         }}
       >
-        {/* Grid pattern */}
+        {/* Off-axis warm wash, matching the site */}
         <div
           style={{
             position: "absolute",
-            inset: 0,
-            backgroundImage:
-              "linear-gradient(rgba(69,224,200,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(69,224,200,0.05) 1px,transparent 1px)",
-            backgroundSize: "48px 48px",
+            top: -260,
+            right: -160,
+            width: 900,
+            height: 640,
+            background:
+              "radial-gradient(ellipse at center, rgba(208,154,83,0.16), transparent 62%)",
           }}
         />
 
-        {/* Tag */}
         <div
           style={{
-            color: "#45e0c8",
-            fontSize: 14,
-            letterSpacing: 6,
-            marginBottom: 28,
+            color: "#d09a53",
+            fontSize: 15,
+            letterSpacing: 7,
+            marginBottom: 30,
             textTransform: "uppercase",
           }}
         >
-          // AI / GenAI Engineer · Portfolio
+          AI / GenAI Engineer
         </div>
 
-        {/* Name */}
         <div
           style={{
-            color: "#d7e1ea",
-            fontSize: 80,
-            fontWeight: 700,
-            letterSpacing: -3,
-            lineHeight: 1,
-            marginBottom: 24,
+            color: "#e8e6e3",
+            fontSize: 96,
+            fontWeight: 800,
+            letterSpacing: -4,
+            lineHeight: 0.96,
+            marginBottom: 12,
           }}
         >
-          TANMAY SHINDE
+          Tanmay Shinde
         </div>
 
-        {/* Tagline */}
         <div
           style={{
-            color: "#45e0c8",
-            fontSize: 22,
-            marginBottom: 52,
-            letterSpacing: 1,
+            color: "#e8e6e3",
+            fontSize: 30,
+            letterSpacing: -0.5,
+            marginBottom: 48,
+            opacity: 0.72,
           }}
         >
-          I build AI systems that actually ship · LLM apps · RAG · Agents
+          I build AI systems that actually ship.
         </div>
 
-        {/* Badges */}
         <div
           style={{
             display: "flex",
-            gap: 32,
-            color: "#7b8b99",
-            fontSize: 13,
+            gap: 26,
+            color: "#8d8880",
+            fontSize: 14,
+            letterSpacing: 0.6,
           }}
         >
-          <span>★ Best Paper · ICCTVB-25</span>
-          <span style={{ color: "#1c2733" }}>·</span>
-          <span>Top 25 / 600+ · DP World × BITS</span>
-          <span style={{ color: "#1c2733" }}>·</span>
-          <span>SDE Intern @ Pixaflip</span>
-          <span style={{ color: "#1c2733" }}>·</span>
-          <span>PCU Pune · 2027</span>
+          <span>Best Paper · ICCTVB-25</span>
+          <span style={{ color: "#32322f" }}>/</span>
+          <span>Top 25 of 600+ · DP World × BITS</span>
+          <span style={{ color: "#32322f" }}>/</span>
+          <span>SDE Intern · Pixaflip</span>
         </div>
       </div>
     ),

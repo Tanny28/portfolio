@@ -1,89 +1,92 @@
+import Section from "@/components/ui/Section";
 import { experience, education } from "@/lib/data";
 
 export default function Experience() {
   return (
-    <section
-      id="experience"
-      className="relative px-6 lg:px-10 py-28 flex flex-col items-center"
-    >
-      <div className="max-w-4xl w-full">
-        <div className="flex items-end justify-between gap-8 mb-12 pb-5 border-b border-border">
-          <div className="font-mono text-[11px] tracking-[0.3em] uppercase text-accent">
-            // 04 · experience
-          </div>
-          <div className="hidden md:block font-mono text-[10px] tracking-[0.25em] uppercase text-muted-foreground">
-            2 internships · 1 degree
-          </div>
-        </div>
+    <Section id="experience" label="Experience" meta="2023 — now">
+      <h3 className="font-display text-[clamp(2rem,4.5vw,3.25rem)] font-bold tracking-[-0.035em] leading-[1.02] max-w-[14ch] reveal-target">
+        Where I&apos;ve worked.
+      </h3>
 
-        <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight mb-12">
-          Where I&apos;ve worked.
-        </h2>
+      <ol className="mt-12 relative">
+        {/* Continuous spine */}
+        <span
+          aria-hidden
+          className="absolute left-[3px] top-2 bottom-2 w-px bg-border-strong"
+        />
 
-        <ol className="relative border-l border-border ml-1 space-y-12">
-          {experience.map((job) => (
-            <li key={job.org} className="relative pl-8 reveal-target">
-              <span
-                className={`absolute -left-[5px] top-2 size-2.5 rounded-full ${
-                  job.current ? "bg-accent" : "bg-muted-foreground/50"
-                }`}
-              />
-              <div className="font-mono text-[11px] text-muted-foreground tracking-widest mb-2 flex flex-wrap items-center gap-2">
-                {job.period}
-                {job.current && (
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded border border-accent/40 bg-accent/10 text-accent text-[9px] tracking-[0.2em] uppercase">
-                    current
-                  </span>
-                )}
-              </div>
-              <h3 className="font-display text-xl font-semibold">
-                {job.title}
-              </h3>
-              <div className="text-sm text-foreground/80 mt-0.5">
-                {job.org} · {job.location}
-              </div>
-              <ul className="mt-3 space-y-2">
-                {job.points.map((pt, i) => (
-                  <li
-                    key={i}
-                    className="text-sm text-muted-foreground leading-relaxed pl-4 relative before:content-['▸'] before:absolute before:left-0 before:text-accent/60"
-                  >
-                    {pt}
-                  </li>
-                ))}
-              </ul>
-              <div className="flex flex-wrap gap-1.5 mt-4">
-                {job.tags.map((t) => (
-                  <span
-                    key={t}
-                    className="font-mono text-[10px] px-2 py-0.5 rounded border border-border bg-background/60 text-foreground/70"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </li>
-          ))}
+        {experience.map((job) => (
+          <li
+            key={job.org}
+            className="reveal-target relative pl-10 pb-12 last:pb-0"
+          >
+            <span
+              className={`absolute left-0 top-1.5 size-[7px] rounded-full ring-4 ring-background ${
+                job.current ? "bg-accent" : "bg-border-strong"
+              }`}
+              aria-hidden
+            />
 
-          {/* Education */}
-          <li className="relative pl-8 reveal-target">
-            <span className="absolute -left-[5px] top-2 size-2.5 rounded-full bg-muted-foreground/50" />
-            <div className="font-mono text-[11px] text-muted-foreground tracking-widest mb-2">
-              Aug 2023 — {education.graduation.replace("Expected ", "")} ·
-              EDUCATION
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-[10px] tracking-[0.2em] uppercase text-muted-foreground">
+              <span className="tabular">{job.period}</span>
+              {job.current && (
+                <span className="px-2 py-0.5 border border-accent/35 bg-accent/[0.07] text-accent">
+                  current
+                </span>
+              )}
             </div>
-            <h3 className="font-display text-xl font-semibold">
-              {education.degree}
-            </h3>
-            <div className="text-sm text-foreground/80 mt-0.5">
-              {education.school} · CGPA {education.cgpa}
-            </div>
-            <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
-              Coursework: {education.coursework}
+
+            <h4 className="mt-3 font-display text-[1.35rem] md:text-[1.6rem] font-bold tracking-[-0.025em] leading-tight">
+              {job.title}
+            </h4>
+            <p className="mt-1 text-[14.5px] text-foreground/75">
+              {job.org} · {job.location}
             </p>
+
+            <ul className="mt-4 space-y-2.5 max-w-[64ch]">
+              {job.points.map((pt, i) => (
+                <li
+                  key={i}
+                  className="relative pl-5 text-[14.5px] leading-[1.7] text-muted-foreground before:absolute before:left-0 before:top-[0.65em] before:h-px before:w-2.5 before:bg-accent/50"
+                >
+                  {pt}
+                </li>
+              ))}
+            </ul>
+
+            <div className="mt-4 flex flex-wrap gap-1.5">
+              {job.tags.map((t) => (
+                <span
+                  key={t}
+                  className="font-mono text-[10px] px-2 py-1 rounded-sm border border-border text-foreground/65"
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
           </li>
-        </ol>
-      </div>
-    </section>
+        ))}
+
+        {/* Education */}
+        <li className="reveal-target relative pl-10">
+          <span
+            className="absolute left-0 top-1.5 size-[7px] rounded-full ring-4 ring-background bg-border-strong"
+            aria-hidden
+          />
+          <div className="font-mono text-[10px] tracking-[0.2em] uppercase text-muted-foreground tabular">
+            Aug 2023 — {education.graduation.replace("Expected ", "")}
+          </div>
+          <h4 className="mt-3 font-display text-[1.35rem] md:text-[1.6rem] font-bold tracking-[-0.025em] leading-tight">
+            {education.degree}
+          </h4>
+          <p className="mt-1 text-[14.5px] text-foreground/75">
+            {education.school} · CGPA <span className="tabular">{education.cgpa}</span>
+          </p>
+          <p className="mt-3 text-[14.5px] leading-[1.7] text-muted-foreground max-w-[64ch]">
+            Coursework: {education.coursework}
+          </p>
+        </li>
+      </ol>
+    </Section>
   );
 }

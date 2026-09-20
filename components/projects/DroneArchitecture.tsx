@@ -158,7 +158,7 @@ function NodeRect({
   hovered: boolean;
   onHover: (id: NodeId | null) => void;
 }) {
-  const color = node.green ? "#22c55e" : "#00d4ff";
+  const color = node.green ? "#e8e6e3" : "#d09a53";
   const scale = hovered || active ? 1.04 : 1;
 
   return (
@@ -181,7 +181,7 @@ function NodeRect({
         style={{
           filter:
             hovered || active
-              ? `drop-shadow(0 0 ${node.green ? "8px #22c55e" : "8px #00d4ff"})`
+              ? `drop-shadow(0 0 ${node.green ? "8px #e8e6e3" : "8px #d09a53"})`
               : "none",
           transition: "all 0.2s",
         }}
@@ -225,7 +225,7 @@ function FlowDot({
   green?: boolean;
 }) {
   return (
-    <circle r={3} fill={green ? "#22c55e" : "#00d4ff"} opacity={0}>
+    <circle r={3} fill={green ? "#e8e6e3" : "#d09a53"} opacity={0}>
       <animateMotion
         dur={`${dur}s`}
         begin={`${delay}s`}
@@ -308,7 +308,7 @@ export default function DroneArchitecture() {
             markerHeight="6"
             orient="auto"
           >
-            <path d="M0,0 L0,6 L6,3 z" fill="#22c55e66" />
+            <path d="M0,0 L0,6 L6,3 z" fill="#e8e6e366" />
           </marker>
         </defs>
 
@@ -317,7 +317,7 @@ export default function DroneArchitecture() {
           <use
             key={`line-${e.id}`}
             href={`#${e.id}`}
-            stroke={e.green ? "#22c55e44" : "#27272a"}
+            stroke={e.green ? "#e8e6e344" : "#27272a"}
             strokeWidth={e.green ? 1 : 1.5}
             strokeDasharray={e.green ? "4 3" : undefined}
             fill="none"
@@ -365,7 +365,7 @@ export default function DroneArchitecture() {
                 height={34}
                 rx={6}
                 fill="#18181b"
-                stroke="#00d4ff"
+                stroke="#d09a53"
                 strokeWidth={0.8}
               />
               <text

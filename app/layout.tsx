@@ -1,28 +1,20 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
+import { Archivo } from "next/font/google";
 import AgentChat from "@/components/chat/AgentChat";
 import Cursor from "@/components/effects/Cursor";
 import ScrollReveal from "@/components/effects/ScrollReveal";
+import Spotlight from "@/components/effects/Spotlight";
 import KonamiEgg from "@/components/effects/KonamiEgg";
 import TopNav from "@/components/nav/TopNav";
 import "./globals.css";
 
-const inter = Inter({
+const archivo = Archivo({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-archivo",
   display: "swap",
-});
-
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-space-grotesk",
-  display: "swap",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-jetbrains-mono",
-  display: "swap",
+  axes: ["wdth"],
 });
 
 const SITE_URL = "https://tanmay-shinde-28.vercel.app";
@@ -42,6 +34,7 @@ export const metadata: Metadata = {
     "Pune",
     "portfolio",
   ],
+  authors: [{ name: "Tanmay Shinde", url: SITE_URL }],
   openGraph: {
     title: "Tanmay Shinde — AI/GenAI Engineer",
     description:
@@ -72,15 +65,19 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
+      className={`${GeistSans.variable} ${GeistMono.variable} ${archivo.variable}`}
     >
       <body>
+        <a href="#main" className="skip-link">
+          Skip to content
+        </a>
         <TopNav />
         {children}
         <div className="noise-overlay" aria-hidden />
         <AgentChat />
         <Cursor />
         <ScrollReveal />
+        <Spotlight />
         <KonamiEgg />
       </body>
     </html>

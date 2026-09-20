@@ -70,7 +70,7 @@ function MatrixRain() {
 
       drops.forEach((y, i) => {
         const bright = Math.random() > 0.92;
-        ctx.fillStyle = bright ? "#ffffff" : "#00d4ff";
+        ctx.fillStyle = bright ? "#ffffff" : "#d09a53";
         ctx.globalAlpha = bright ? 1 : 0.55;
         ctx.fillText(
           chars[Math.floor(Math.random() * chars.length)],

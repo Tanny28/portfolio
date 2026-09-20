@@ -1,44 +1,36 @@
+import Section from "@/components/ui/Section";
 import { achievements } from "@/lib/data";
 
 export default function Achievements() {
   return (
-    <section
-      id="achievements"
-      className="relative px-6 lg:px-10 py-28 flex flex-col items-center"
-    >
-      <div className="max-w-6xl w-full">
-        <div className="flex items-end justify-between gap-8 mb-12 pb-5 border-b border-border">
-          <div className="font-mono text-[11px] tracking-[0.3em] uppercase text-accent">
-            // 05 · recognition
-          </div>
-          <div className="hidden md:block font-mono text-[10px] tracking-[0.25em] uppercase text-muted-foreground">
-            externally verified
-          </div>
-        </div>
+    <Section id="achievements" label="Recognition" meta="externally verified">
+      <h3 className="font-display text-[clamp(2rem,4.5vw,3.25rem)] font-bold tracking-[-0.035em] leading-[1.02] max-w-[14ch] reveal-target">
+        Proof, not promises.
+      </h3>
 
-        <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight mb-12">
-          Proof, not promises.
-        </h2>
-
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {achievements.map((a) => (
-            <div
-              key={a.label}
-              className="reveal-target p-6 rounded-lg border border-border bg-card/50 hover:border-accent/40 transition-colors"
-            >
-              <div className="font-display font-bold text-3xl text-accent tracking-tight">
-                {a.metric}
-              </div>
-              <div className="font-mono text-[11px] tracking-[0.2em] uppercase text-foreground mt-2">
+      {/* Results-table treatment — the native artifact of the field, and a
+          deliberate break from the three-card feature row. */}
+      <dl className="mt-12 border-t border-border">
+        {achievements.map((a, i) => (
+          <div
+            key={a.label}
+            className="reveal-target group grid md:grid-cols-[minmax(0,14rem)_1fr] gap-x-10 gap-y-2 py-7 border-b border-border"
+            data-delay={String((i % 4) + 1)}
+          >
+            <dt className="font-display text-[clamp(1.6rem,3.6vw,2.4rem)] font-extrabold tracking-[-0.04em] leading-none text-accent tabular">
+              {a.metric}
+            </dt>
+            <dd className="md:pt-1">
+              <p className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-foreground/90">
                 {a.label}
-              </div>
-              <p className="text-sm text-muted-foreground leading-relaxed mt-2">
+              </p>
+              <p className="mt-2 text-[14.5px] leading-[1.7] text-muted-foreground max-w-[54ch]">
                 {a.detail}
               </p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </Section>
   );
 }
