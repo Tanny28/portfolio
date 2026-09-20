@@ -57,7 +57,7 @@ export default function Projects() {
 
       <ol className="mt-12 border-t border-border">
         {projects.map((p, i) => (
-          <li key={p.slug} className="border-b border-border">
+          <li key={p.slug} id={p.slug} className="border-b border-border">
             <button
               onClick={() => setOpen(p)}
               className="group relative w-full text-left py-7 lg:py-9 grid md:grid-cols-[1fr_auto] gap-x-8 gap-y-3 items-start transition-[padding] duration-500 ease-spring hover:pl-3"

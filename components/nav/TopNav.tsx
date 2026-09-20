@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import CommandK from "@/components/nav/CommandK";
 
 const LINKS = [
   { label: "About", href: "#about", id: "about" },
@@ -91,12 +92,15 @@ export default function TopNav() {
           })}
         </nav>
 
-        <a
-          href="#contact"
-          className="pressable inline-flex items-center px-4 py-1.5 rounded-sm border border-accent/40 bg-accent/[0.07] text-accent font-mono text-[11px] tracking-[0.18em] uppercase hover:bg-accent hover:text-background"
-        >
-          Contact
-        </a>
+        <div className="flex items-center gap-2">
+          <CommandK />
+          <a
+            href="#contact"
+            className="pressable inline-flex items-center px-4 py-1.5 rounded-sm border border-accent/40 bg-accent/[0.07] text-accent font-mono text-[11px] tracking-[0.18em] uppercase hover:bg-accent hover:text-background"
+          >
+            Contact
+          </a>
+        </div>
       </div>
     </header>
   );
