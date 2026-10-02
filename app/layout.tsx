@@ -3,6 +3,7 @@ import { Onest } from "next/font/google";
 import AgentChat from "@/components/chat/AgentChat";
 import "./globals.css";
 import "./site.css";
+import { SITE } from "@/lib/constants";
 
 const onest = Onest({
   subsets: ["latin"],
@@ -11,7 +12,7 @@ const onest = Onest({
   display: "swap",
 });
 
-const SITE_URL = "https://tanmay-shinde-28.vercel.app";
+const SITE_URL = SITE.url;
 
 export const viewport: Viewport = {
   themeColor: "#0a0a0a",
@@ -22,6 +23,7 @@ export const metadata: Metadata = {
   description:
     "Final-year AI & ML engineer building production-grade GenAI systems: LLM apps, RAG, agents, and ML models. Best Research Paper award · national hackathon Top 25.",
   metadataBase: new URL(SITE_URL),
+  alternates: { canonical: "/" },
   keywords: [
     "AI engineer",
     "GenAI",
@@ -61,8 +63,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={onest.variable}>
+    <html lang="en" className={onest.variable} suppressHydrationWarning>
       <body>
+        {/* Runs before first paint so returning visitors never see the intro loader flash. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{if(sessionStorage.getItem('intro-seen')==='1')document.documentElement.classList.add('intro-seen')}catch(e){}",
+          }}
+        />
         <a href="#main" className="skip">
           Skip to content
         </a>

@@ -1,4 +1,4 @@
-import { Close, LogoMark } from "./Icons";
+import { Close, Copy, LogoMark } from "./Icons";
 import { Lines, Pill } from "./Ui";
 import { PROFILE } from "@/lib/data";
 
@@ -12,9 +12,15 @@ export function Footer() {
             className="h2"
             stagger={100}
           />
-          <Pill variant="light" arrow="up-right" contact>
-            Get in touch
-          </Pill>
+          <div className="ftr-actions">
+            <Pill variant="light" arrow="up-right" contact>
+              Get in touch
+            </Pill>
+            <button className="copy-btn" data-copy={PROFILE.email} type="button">
+              <Copy />
+              <span data-copy-label>Copy email</span>
+            </button>
+          </div>
         </div>
 
         <div className="ftr-cols">
@@ -111,7 +117,12 @@ export function RequestModal() {
               />
             </label>
             <div className="form-foot">
-              <p>Opens your mail app with this drafted.</p>
+              <p>
+                Opens your mail app with this drafted. No mail app?{" "}
+                <button className="link-btn" type="button" data-copy={PROFILE.email}>
+                  Copy my email
+                </button>
+              </p>
               <Pill variant="dark" arrow="up-right" type="submit">
                 Send request
               </Pill>

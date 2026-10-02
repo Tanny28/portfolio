@@ -37,12 +37,20 @@ export function Hero() {
             <span>Best Research Paper — ICCTVB-25</span>
           </Reveal>
 
-          <Reveal kind="up" delay={750} gate y={12} className="cta-row">
+          <Reveal kind="up" delay={720} gate y={12} className="avail">
+            <span className="avail-dot" aria-hidden="true" />
+            <span>Open to roles &amp; internships · Class of 2027 · Pune or remote</span>
+          </Reveal>
+
+          <Reveal kind="up" delay={800} gate y={12} className="cta-row">
             <Pill variant="dark" arrow="right" contact>
               Let&apos;s Talk
             </Pill>
             <Pill variant="outline" scroll="works">
               View Work
+            </Pill>
+            <Pill variant="outline" href={PROFILE.resume} external>
+              Resume
             </Pill>
           </Reveal>
         </div>
@@ -107,7 +115,7 @@ export function Hero() {
       <Reveal kind="fade" delay={900} gate className="statusbar">
         <div className="shell">
           <span>B.Tech AI &amp; ML · {PROFILE.graduation}</span>
-          <span className="mid">Pune, India · open to remote</span>
+          <span className="mid">Based in Pune, India</span>
           <span className="scroll">
             Scroll to explore <span aria-hidden="true">↓</span>
           </span>

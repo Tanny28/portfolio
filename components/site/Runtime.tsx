@@ -271,6 +271,43 @@ function initLiquid(root: HTMLElement, animate: boolean): Cleanup {
   };
 }
 
+// ───────── copy to clipboard ─────────
+const copyTimers = new WeakMap<HTMLElement, number>();
+async function copyText(el: HTMLElement) {
+  const text = el.dataset.copy ?? "";
+  let ok = false;
+  try {
+    await navigator.clipboard.writeText(text);
+    ok = true;
+  } catch {
+    // Clipboard API unavailable or denied: fall back to a temporary selection.
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.cssText = "position:fixed;opacity:0;pointer-events:none";
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      ok = document.execCommand("copy");
+    } catch {
+      ok = false;
+    }
+    ta.remove();
+  }
+  const label = qs("[data-copy-label]", el) ?? el;
+  if (!label.dataset.original) label.dataset.original = label.textContent ?? "";
+  label.textContent = ok ? "Copied ✓" : "Couldn't copy";
+  const live = qs("[data-sr-live]");
+  if (live) live.textContent = ok ? "Email address copied" : "Couldn't copy the email address";
+  window.clearTimeout(copyTimers.get(el));
+  copyTimers.set(
+    el,
+    window.setTimeout(() => {
+      label.textContent = label.dataset.original ?? "";
+      if (live) live.textContent = "";
+    }, 2000),
+  );
+}
+
 // ───────── main ─────────
 function init(): Cleanup {
   const cleanups: Cleanup[] = [];
@@ -370,7 +407,14 @@ function init(): Cleanup {
     loader.classList.remove("exit");
     loader.style.display = "";
   }
-  if (loader && !reduced) {
+  const introSeen = (() => {
+    try {
+      return sessionStorage.getItem("intro-seen") === "1";
+    } catch {
+      return false;
+    }
+  })();
+  if (loader && !reduced && !introSeen) {
     lockScroll();
     const fill = qs("[data-loader-fill]", loader);
     const count = qs("[data-loader-count]", loader);
@@ -385,6 +429,11 @@ function init(): Cleanup {
       if (finished) return;
       finished = true;
       loader.style.display = "none";
+      try {
+        sessionStorage.setItem("intro-seen", "1");
+      } catch {
+        // storage unavailable (private mode): the intro simply plays again next visit
+      }
       unlockScroll();
       setReady();
     };
@@ -606,6 +655,13 @@ function init(): Cleanup {
         o.close();
         return;
       }
+    }
+
+    const copyEl = t.closest<HTMLElement>("[data-copy]");
+    if (copyEl?.dataset.copy) {
+      e.preventDefault();
+      void copyText(copyEl);
+      return;
     }
 
     const opener = t.closest<HTMLElement>("[data-open]");

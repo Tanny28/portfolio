@@ -67,3 +67,10 @@ export const Mail = (p: P) => (
     <path d="M3 6h18v12H3zM3.5 7l8.5 6.5L20.5 7" />
   </svg>
 );
+
+export const Copy = (p: P) => (
+  <svg {...stroke} strokeWidth={1.8} {...p}>
+    <rect x="9" y="9" width="11" height="11" rx="2" />
+    <path d="M5 15V6a2 2 0 0 1 2-2h9" />
+  </svg>
+);
