@@ -488,10 +488,8 @@ html.lenis, html.lenis body { height: auto; }
 .stat-n { font-size: 3rem; font-weight: 600; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
 @media (min-width: 640px) { .stat-n { font-size: 3.75rem; } }
 @media (min-width: 768px) { .stat-n { font-size: 4.5rem; } }
-.stat-n small {
-  font-size: 0.4em; font-weight: 500; letter-spacing: 0; color: rgba(255, 255, 255, 0.6); margin-inline: 0.2em;
-}
-.stat-n small:first-child { margin-left: 0; }
+.stat-n small { font-size: 0.4em; font-weight: 500; letter-spacing: 0; color: rgba(255, 255, 255, 0.6); }
+.stat-n span + small { margin-left: 0.1em; }
 .stat-l { margin-top: 0.75rem; font-size: 0.875rem; color: rgba(255, 255, 255, 0.55); }
 
 /* ───────── footer ───────── */

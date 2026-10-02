@@ -139,7 +139,7 @@ export function Stats() {
             {stats.map((s, i) => (
               <Reveal as="li" kind="up" y={20} delay={i * 90} key={s.label}>
                 <div className="stat-n">
-                  {s.prefix && <small>{s.prefix.trim()}</small>}
+                  {s.prefix && <small>{s.prefix}</small>}
                   <span data-count={s.value}>{s.value}</span>
                   {s.suffix && <small>{s.suffix}</small>}
                 </div>

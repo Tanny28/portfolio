@@ -20,13 +20,24 @@ function mulberry32(a: number) {
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
   };
 }
+
+// Each node drifts on its own slow orbit around a fixed anchor.
 const NODES = (() => {
   const r = mulberry32(11);
-  return Array.from({ length: 64 }, () => ({ x: r(), y: r() }));
+  return Array.from({ length: 64 }, () => ({
+    x: r(),
+    y: r(),
+    ax: 30 + r() * 60,
+    ay: 30 + r() * 60,
+    fx: 0.12 + r() * 0.26,
+    fy: 0.12 + r() * 0.26,
+    px: r() * Math.PI * 2,
+    py: r() * Math.PI * 2,
+  }));
 })();
 
-function paintArt(ctx: CanvasRenderingContext2D, w: number, h: number, dpr: number, warm: boolean) {
-  ctx.globalCompositeOperation = "source-over";
+/** Static part of the art (gradient, light, grid). Drawn once per resize. */
+function paintBackdrop(ctx: CanvasRenderingContext2D, w: number, h: number, dpr: number, warm: boolean) {
   const g = ctx.createLinearGradient(0, 0, w, h);
   if (warm) {
     g.addColorStop(0, "#cf8047");
@@ -61,110 +72,161 @@ function paintArt(ctx: CanvasRenderingContext2D, w: number, h: number, dpr: numb
     ctx.lineTo(w, y);
   }
   ctx.stroke();
-
-  const pts = NODES.map((n) => ({ x: n.x * w, y: n.y * h }));
-  const maxD = 220 * dpr;
-  ctx.strokeStyle = warm ? "rgba(255,255,255,.3)" : "rgba(17,17,17,.09)";
-  ctx.lineWidth = 1.2 * dpr;
-  ctx.beginPath();
-  for (let i = 0; i < pts.length; i++) {
-    for (let j = i + 1; j < pts.length; j++) {
-      if (Math.hypot(pts[i].x - pts[j].x, pts[i].y - pts[j].y) < maxD) {
-        ctx.moveTo(pts[i].x, pts[i].y);
-        ctx.lineTo(pts[j].x, pts[j].y);
-      }
-    }
-  }
-  ctx.stroke();
-  ctx.fillStyle = warm ? "rgba(255,255,255,.85)" : "rgba(17,17,17,.22)";
-  for (const p of pts) {
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, 3 * dpr, 0, Math.PI * 2);
-    ctx.fill();
-  }
 }
 
-// ───────── liquid cursor reveal ─────────
-function initLiquid(root: HTMLElement): Cleanup {
+/** Moving part: nodes and the links between them. `t` is seconds. */
+function drawNetwork(ctx: CanvasRenderingContext2D, w: number, h: number, dpr: number, warm: boolean, t: number) {
+  const pts = NODES.map((n) => ({
+    x: n.x * w + Math.sin(t * n.fx + n.px) * n.ax * dpr,
+    y: n.y * h + Math.cos(t * n.fy + n.py) * n.ay * dpr,
+  }));
+  const maxD = 220 * dpr;
+  const rgb = warm ? "255,255,255" : "17,17,17";
+  const maxA = warm ? 0.42 : 0.14;
+  ctx.lineWidth = 1.2 * dpr;
+  for (let i = 0; i < pts.length; i++) {
+    for (let j = i + 1; j < pts.length; j++) {
+      const d = Math.hypot(pts[i].x - pts[j].x, pts[i].y - pts[j].y);
+      if (d >= maxD) continue;
+      // Links fade in as nodes approach and out as they drift apart.
+      const a = Math.pow(1 - d / maxD, 1.3) * maxA;
+      ctx.strokeStyle = `rgba(${rgb},${a.toFixed(3)})`;
+      ctx.beginPath();
+      ctx.moveTo(pts[i].x, pts[i].y);
+      ctx.lineTo(pts[j].x, pts[j].y);
+      ctx.stroke();
+    }
+  }
+  ctx.fillStyle = warm ? "rgba(255,255,255,.85)" : "rgba(17,17,17,.22)";
+  const r = 3 * dpr;
+  ctx.beginPath();
+  for (const p of pts) {
+    ctx.moveTo(p.x + r, p.y);
+    ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+  }
+  ctx.fill();
+}
+
+// ───────── hero: animated network + liquid cursor reveal ─────────
+// The grey network is always drifting. Moving the pointer paints a soft mask;
+// the warm copy of the same (live) network shows only where the mask is, so the
+// revealed layer moves in sync with the one underneath.
+function initLiquid(root: HTMLElement, animate: boolean): Cleanup {
   const base = qs<HTMLCanvasElement>('canvas[data-layer="base"]', root);
   const trail = qs<HTMLCanvasElement>('canvas[data-layer="trail"]', root);
-  const ctx = trail?.getContext("2d");
-  if (!base || !trail || !ctx) return () => {};
+  const bctx = base?.getContext("2d");
+  const tctx = trail?.getContext("2d");
+  if (!base || !trail || !bctx || !tctx) return () => {};
 
   const BRUSH = 143;
   const DECAY = 0.016;
   const FADE_FRAMES = 120;
+  const FRAME_MS = 22; // ~45fps is plenty for slow drift
+  const MS = 0.5; // the mask is soft, so it runs at half resolution
 
-  const cover = document.createElement("canvas");
-  const cctx = cover.getContext("2d")!;
-  const brush = document.createElement("canvas");
-  const bctx = brush.getContext("2d")!;
+  const bgBase = document.createElement("canvas");
+  const bgWarm = document.createElement("canvas");
+  const mask = document.createElement("canvas");
+  const mctx = mask.getContext("2d")!;
+  const sprite = document.createElement("canvas");
 
   let w = 1;
   let h = 1;
   let dpr = 1;
-  let radius = BRUSH;
   let points: { x: number; y: number }[] = [];
   let last: { x: number; y: number } | null = null;
-  let idle = 0;
+  let idle = FADE_FRAMES + 1; // > FADE_FRAMES means "no trail on screen"
+  let trailDirty = false;
   let raf = 0;
+  let lastDraw = 0;
+  let visible = true;
+
+  const draw = (t: number) => {
+    bctx.drawImage(bgBase, 0, 0);
+    drawNetwork(bctx, w, h, dpr, false, t);
+
+    if (idle <= FADE_FRAMES) {
+      tctx.globalCompositeOperation = "source-over";
+      tctx.clearRect(0, 0, w, h);
+      tctx.drawImage(bgWarm, 0, 0);
+      drawNetwork(tctx, w, h, dpr, true, t);
+      tctx.globalCompositeOperation = "destination-in";
+      tctx.drawImage(mask, 0, 0, w, h);
+      tctx.globalCompositeOperation = "source-over";
+      trailDirty = true;
+    } else if (trailDirty) {
+      tctx.clearRect(0, 0, w, h);
+      trailDirty = false;
+    }
+  };
 
   const resize = () => {
     const r = root.getBoundingClientRect();
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     w = Math.max(1, Math.round(r.width * dpr));
     h = Math.max(1, Math.round(r.height * dpr));
-    for (const c of [base, trail, cover]) {
+    for (const c of [base, trail, bgBase, bgWarm]) {
       c.width = w;
       c.height = h;
     }
-    radius = BRUSH * dpr;
-    brush.width = brush.height = Math.ceil(radius * 2);
-    paintArt(base.getContext("2d")!, w, h, dpr, false);
-    paintArt(cctx, w, h, dpr, true);
-  };
+    mask.width = Math.max(1, Math.round(w * MS));
+    mask.height = Math.max(1, Math.round(h * MS));
+    paintBackdrop(bgBase.getContext("2d")!, w, h, dpr, false);
+    paintBackdrop(bgWarm.getContext("2d")!, w, h, dpr, true);
 
-  const stamp = (x: number, y: number) => {
-    const d = brush.width;
-    const c = d / 2;
-    bctx.globalCompositeOperation = "source-over";
-    bctx.clearRect(0, 0, d, d);
-    const g = bctx.createRadialGradient(c, c, 0, c, c, c);
+    const d = Math.ceil(BRUSH * dpr * MS * 2);
+    sprite.width = sprite.height = d;
+    const sctx = sprite.getContext("2d")!;
+    const g = sctx.createRadialGradient(d / 2, d / 2, 0, d / 2, d / 2, d / 2);
     g.addColorStop(0, "rgba(255,255,255,1)");
     g.addColorStop(0.55, "rgba(255,255,255,.82)");
     g.addColorStop(1, "rgba(255,255,255,0)");
-    bctx.fillStyle = g;
-    bctx.fillRect(0, 0, d, d);
-    bctx.globalCompositeOperation = "source-in";
-    bctx.drawImage(cover, x - c, y - c, d, d, 0, 0, d, d);
-    ctx.globalCompositeOperation = "source-over";
-    ctx.drawImage(brush, x - c, y - c);
+    sctx.fillStyle = g;
+    sctx.fillRect(0, 0, d, d);
+
+    idle = FADE_FRAMES + 1;
+    draw(performance.now() / 1000);
   };
 
-  const tick = () => {
+  const tick = (now: number) => {
+    raf = requestAnimationFrame(tick);
+    if (now - lastDraw < FRAME_MS) return;
+    lastDraw = now;
+
     const drawing = points.length > 0;
     if (drawing) idle = 0;
-    else if (++idle > FADE_FRAMES) {
-      raf = 0;
-      return;
+    else if (idle <= FADE_FRAMES) idle++;
+
+    if (idle <= FADE_FRAMES) {
+      const fade = drawing ? DECAY : Math.min(DECAY + idle * 0.004, 0.5);
+      mctx.globalCompositeOperation = "destination-out";
+      mctx.fillStyle = `rgba(0,0,0,${fade})`;
+      mctx.fillRect(0, 0, mask.width, mask.height);
+      mctx.globalCompositeOperation = "source-over";
+      if (drawing) {
+        const c = sprite.width / 2;
+        for (const p of points) mctx.drawImage(sprite, p.x * MS - c, p.y * MS - c);
+        points = [];
+      } else if (idle === FADE_FRAMES) {
+        mctx.clearRect(0, 0, mask.width, mask.height);
+      }
     }
-    const fade = drawing ? DECAY : Math.min(DECAY + idle * 0.004, 0.5);
-    ctx.globalCompositeOperation = "destination-out";
-    ctx.fillStyle = `rgba(0,0,0,${fade})`;
-    ctx.fillRect(0, 0, w, h);
-    if (drawing) {
-      for (const p of points) stamp(p.x, p.y);
-      points = [];
-    } else if (idle === FADE_FRAMES) {
-      ctx.clearRect(0, 0, w, h);
-    }
-    raf = requestAnimationFrame(tick);
+    draw(now / 1000);
+  };
+
+  const start = () => {
+    if (!raf && animate && visible && !document.hidden) raf = requestAnimationFrame(tick);
+  };
+  const stop = () => {
+    cancelAnimationFrame(raf);
+    raf = 0;
   };
 
   const onMove = (e: PointerEvent) => {
     const r = trail.getBoundingClientRect();
     const x = (e.clientX - r.left) * dpr;
     const y = (e.clientY - r.top) * dpr;
+    const radius = BRUSH * dpr;
     if (x < -radius || y < -radius || x > w + radius || y > h + radius) {
       last = null;
       return;
@@ -179,17 +241,33 @@ function initLiquid(root: HTMLElement): Cleanup {
       points.push({ x, y });
     }
     last = { x, y };
-    if (!raf) raf = requestAnimationFrame(tick);
   };
 
   resize();
   const ro = new ResizeObserver(resize);
   ro.observe(root);
-  window.addEventListener("pointermove", onMove, { passive: true });
+
+  // Only animate while the hero is on screen and the tab is visible.
+  const io = new IntersectionObserver(([e]) => {
+    visible = e.isIntersecting;
+    if (visible) start();
+    else stop();
+  });
+  io.observe(root);
+  const onVisibility = () => (document.hidden ? stop() : start());
+  document.addEventListener("visibilitychange", onVisibility);
+
+  if (animate) {
+    window.addEventListener("pointermove", onMove, { passive: true });
+    start();
+  }
+
   return () => {
+    stop();
     ro.disconnect();
+    io.disconnect();
+    document.removeEventListener("visibilitychange", onVisibility);
     window.removeEventListener("pointermove", onMove);
-    cancelAnimationFrame(raf);
   };
 }
 
@@ -357,19 +435,9 @@ function init(): Cleanup {
   const clockId = window.setInterval(tickClock, 1000);
   cleanups.push(() => clearInterval(clockId));
 
-  // Hero: liquid reveal
+  // Hero: animated network + liquid reveal (static when reduced motion is on)
   const liquid = qs("[data-liquid]");
-  if (liquid && !reduced) cleanups.push(initLiquid(liquid));
-  else if (liquid) {
-    // Static art only; skip the cursor trail.
-    const base = qs<HTMLCanvasElement>('canvas[data-layer="base"]', liquid);
-    if (base) {
-      const r = liquid.getBoundingClientRect();
-      base.width = Math.max(1, Math.round(r.width));
-      base.height = Math.max(1, Math.round(r.height));
-      paintArt(base.getContext("2d")!, base.width, base.height, 1, false);
-    }
-  }
+  if (liquid) cleanups.push(initLiquid(liquid, !reduced));
 
   // Hero card carousel
   const hcard = qs("[data-hcard]");
