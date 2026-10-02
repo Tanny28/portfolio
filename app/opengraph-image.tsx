@@ -10,80 +10,57 @@ export default function OGImage() {
     (
       <div
         style={{
-          background: "#0c0c0d",
           width: "100%",
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "center",
-          padding: "84px 88px",
-          fontFamily: "monospace",
+          justifyContent: "space-between",
+          padding: "72px 80px",
+          background: "linear-gradient(135deg, #ecebe9 0%, #c9c9c9 100%)",
+          color: "#111111",
           position: "relative",
         }}
       >
-        {/* Off-axis warm wash, matching the site */}
+        {/* warm accent glow, like the cursor reveal on the site */}
         <div
           style={{
             position: "absolute",
-            top: -260,
-            right: -160,
-            width: 900,
-            height: 640,
-            background:
-              "radial-gradient(ellipse at center, rgba(208,154,83,0.16), transparent 62%)",
+            right: -120,
+            bottom: -160,
+            width: 620,
+            height: 620,
+            borderRadius: 620,
+            background: "radial-gradient(circle, rgba(207,128,71,0.85), rgba(207,128,71,0) 68%)",
           }}
         />
 
-        <div
-          style={{
-            color: "#d09a53",
-            fontSize: 15,
-            letterSpacing: 7,
-            marginBottom: 30,
-            textTransform: "uppercase",
-          }}
-        >
-          AI / GenAI Engineer
-        </div>
-
-        <div
-          style={{
-            color: "#e8e6e3",
-            fontSize: 96,
-            fontWeight: 800,
-            letterSpacing: -4,
-            lineHeight: 0.96,
-            marginBottom: 12,
-          }}
-        >
+        <div style={{ display: "flex", alignItems: "center", gap: 14, fontSize: 30, fontWeight: 600 }}>
+          <svg width="36" height="36" viewBox="0 0 48 48">
+            <path
+              fill="#b15f2c"
+              d="M24 2c2.2 13.8 7.9 19.6 22 22-14.1 2.4-19.8 8.2-22 22-2.2-13.8-7.9-19.6-22-22 14.1-2.4 19.8-8.2 22-22Z"
+            />
+          </svg>
           Tanmay Shinde
         </div>
 
-        <div
-          style={{
-            color: "#e8e6e3",
-            fontSize: 30,
-            letterSpacing: -0.5,
-            marginBottom: 48,
-            opacity: 0.72,
-          }}
-        >
-          I build AI systems that actually ship.
+        <div style={{ display: "flex", flexDirection: "column", gap: 22, position: "relative" }}>
+          <div style={{ fontSize: 22, letterSpacing: 6, textTransform: "uppercase", color: "#555555" }}>
+            AI / GenAI Engineer
+          </div>
+          <div style={{ fontSize: 96, fontWeight: 700, lineHeight: 0.98, letterSpacing: -3 }}>
+            I build AI systems
+          </div>
+          <div style={{ fontSize: 96, fontWeight: 700, lineHeight: 0.98, letterSpacing: -3, color: "#555555" }}>
+            that actually ship.
+          </div>
         </div>
 
-        <div
-          style={{
-            display: "flex",
-            gap: 26,
-            color: "#8d8880",
-            fontSize: 14,
-            letterSpacing: 0.6,
-          }}
-        >
-          <span>Best Paper · ICCTVB-25</span>
-          <span style={{ color: "#32322f" }}>/</span>
-          <span>Top 25 of 600+ · DP World × BITS</span>
-          <span style={{ color: "#32322f" }}>/</span>
+        <div style={{ display: "flex", gap: 28, fontSize: 22, color: "#333333", position: "relative" }}>
+          <span>Best Research Paper · ICCTVB-25</span>
+          <span style={{ color: "#888888" }}>/</span>
+          <span>Top 25 of 600+ teams</span>
+          <span style={{ color: "#888888" }}>/</span>
           <span>SDE Intern · Pixaflip</span>
         </div>
       </div>

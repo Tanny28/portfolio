@@ -1,88 +1,39 @@
 import type { Config } from "tailwindcss";
 
+// Tailwind now only styles the floating AI chat widget; the page itself uses
+// app/site.css. Tokens match the site's ink + burnt-orange palette.
 const config: Config = {
   darkMode: ["class"],
-  content: [
-    "./app/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-    "./lib/**/*.{ts,tsx}",
-  ],
+  content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./lib/**/*.{ts,tsx}"],
   theme: {
     extend: {
       colors: {
-        // Warm graphite base — one gray family, warm-tinted throughout.
-        background: "#0c0c0d",
-        surface: {
-          DEFAULT: "#141415",
-          raised: "#1a1a1b",
-        },
-        foreground: "#e8e6e3",
-        // Single accent: oxidized brass. Low saturation (50%), reads as
-        // instrument metal rather than neon.
+        background: "#0a0a0a",
+        foreground: "#f1f0ee",
         accent: {
-          DEFAULT: "#d09a53",
-          muted: "#8a6838",
-          glow: "rgba(208, 154, 83, 0.28)",
+          DEFAULT: "#cf8047",
+          glow: "rgba(207, 128, 71, 0.35)",
         },
         muted: {
-          DEFAULT: "#141415",
-          foreground: "#8d8880",
+          DEFAULT: "#1b1b1b",
+          foreground: "#9a9a9a",
         },
-        border: {
-          DEFAULT: "#232322",
-          strong: "#32322f",
-        },
+        border: "#2a2a2a",
         card: {
-          DEFAULT: "#141415",
-          foreground: "#e8e6e3",
-        },
-        input: "#232322",
-        ring: "#d09a53",
-        primary: {
-          DEFAULT: "#d09a53",
-          foreground: "#0c0c0d",
-        },
-        secondary: {
-          DEFAULT: "#1a1a1b",
-          foreground: "#e8e6e3",
-        },
-        destructive: {
-          DEFAULT: "#c65f4b",
-          foreground: "#f5f3f0",
-        },
-        popover: {
-          DEFAULT: "#141415",
-          foreground: "#e8e6e3",
+          DEFAULT: "#111111",
+          foreground: "#f1f0ee",
         },
       },
       fontFamily: {
-        sans: ["var(--font-geist-sans)", "system-ui", "sans-serif"],
-        display: ["var(--font-archivo)", "system-ui", "sans-serif"],
-        mono: ["var(--font-geist-mono)", "ui-monospace", "monospace"],
+        sans: ["var(--font-onest)", "system-ui", "sans-serif"],
+        mono: ["var(--font-onest)", "system-ui", "sans-serif"],
       },
-      // Varied radius — tight on inner chips, softer on containers.
-      borderRadius: {
-        sm: "2px",
-        DEFAULT: "3px",
-        md: "5px",
-        lg: "8px",
-        xl: "14px",
-      },
-      // Named z-scale replaces arbitrary values.
-      zIndex: {
-        raised: "10",
-        sticky: "20",
-        nav: "40",
-        overlay: "50",
-        modal: "60",
-      },
-      // Tinted shadows carrying the background hue, not flat black.
-      boxShadow: {
-        lift: "0 1px 2px rgba(8,8,7,0.6), 0 8px 24px -8px rgba(8,8,7,0.8)",
-        deep: "0 24px 64px -16px rgba(8,8,7,0.9)",
-      },
-      transitionTimingFunction: {
-        spring: "cubic-bezier(0.22, 1, 0.36, 1)",
+      // The page scales the root font-size with the viewport; keep the chat's
+      // text a fixed, readable size instead of letting it shrink on tablets.
+      fontSize: {
+        xs: ["12px", { lineHeight: "16px" }],
+        sm: ["14px", { lineHeight: "20px" }],
+        base: ["16px", { lineHeight: "24px" }],
       },
     },
   },
