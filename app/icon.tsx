@@ -9,24 +9,21 @@ export default function Icon() {
     (
       <div
         style={{
-          background: "#0a0a0f",
           width: 32,
           height: 32,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          borderRadius: "50%",
-          border: "2px solid #d09a53",
+          background: "#0a0a0a",
+          borderRadius: 8,
         }}
       >
-        <div
-          style={{
-            width: 10,
-            height: 10,
-            borderRadius: "50%",
-            background: "#d09a53",
-          }}
-        />
+        <svg width="20" height="20" viewBox="0 0 48 48">
+          <path
+            fill="#cf8047"
+            d="M24 2c2.2 13.8 7.9 19.6 22 22-14.1 2.4-19.8 8.2-22 22-2.2-13.8-7.9-19.6-22-22 14.1-2.4 19.8-8.2 22-22Z"
+          />
+        </svg>
       </div>
     ),
     { ...size }

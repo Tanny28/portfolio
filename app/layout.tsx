@@ -1,23 +1,21 @@
-import type { Metadata } from "next";
-import { GeistSans } from "geist/font/sans";
-import { GeistMono } from "geist/font/mono";
-import { Archivo } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Onest } from "next/font/google";
 import AgentChat from "@/components/chat/AgentChat";
-import Cursor from "@/components/effects/Cursor";
-import ScrollReveal from "@/components/effects/ScrollReveal";
-import Spotlight from "@/components/effects/Spotlight";
-import KonamiEgg from "@/components/effects/KonamiEgg";
-import TopNav from "@/components/nav/TopNav";
 import "./globals.css";
+import "./site.css";
 
-const archivo = Archivo({
+const onest = Onest({
   subsets: ["latin"],
-  variable: "--font-archivo",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-onest",
   display: "swap",
-  axes: ["wdth"],
 });
 
 const SITE_URL = "https://tanmay-shinde-28.vercel.app";
+
+export const viewport: Viewport = {
+  themeColor: "#0a0a0a",
+};
 
 export const metadata: Metadata = {
   title: "Tanmay Shinde — AI/GenAI Engineer",
@@ -63,22 +61,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      className={`${GeistSans.variable} ${GeistMono.variable} ${archivo.variable}`}
-    >
+    <html lang="en" className={onest.variable}>
       <body>
-        <a href="#main" className="skip-link">
+        <a href="#main" className="skip">
           Skip to content
         </a>
-        <TopNav />
         {children}
-        <div className="noise-overlay" aria-hidden />
         <AgentChat />
-        <Cursor />
-        <ScrollReveal />
-        <Spotlight />
-        <KonamiEgg />
       </body>
     </html>
   );

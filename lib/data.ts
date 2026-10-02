@@ -21,6 +21,7 @@ export type Project = {
   slug: string;
   title: string;
   role: string; // what kind of system it is, in recruiter terms
+  category: string; // short label shown on project cards
   tagline: string;
   stack: string[];
   problem?: string;
@@ -37,6 +38,7 @@ export type Project = {
 export const projects: Project[] = [
   {
     slug: "pixa-agent",
+    category: "Agents",
     title: "Pixa Agent",
     role: "Open-source AI coding agent for VS Code",
     tagline:
@@ -62,6 +64,7 @@ export const projects: Project[] = [
   },
   {
     slug: "acadflip-diggen",
+    category: "LLM pipeline",
     title: "Acadflip DigGen",
     role: "Document-to-courseware pipeline",
     tagline:
@@ -83,6 +86,7 @@ export const projects: Project[] = [
   },
   {
     slug: "smart-lecture-analyzer",
+    category: "LLM pipeline",
     title: "Smart Lecture Analyzer",
     role: "LLM study-tool pipeline",
     tagline:
@@ -108,6 +112,7 @@ export const projects: Project[] = [
   },
   {
     slug: "tradexa",
+    category: "Optimization",
     title: "TRADEXA",
     role: "Real-time supply-chain disruption simulator",
     tagline:
@@ -134,6 +139,7 @@ export const projects: Project[] = [
   },
   {
     slug: "drone-security-analyst",
+    category: "Vision + agents",
     title: "Drone Security Analyst Agent",
     role: "Video-intelligence agent",
     tagline:
@@ -159,6 +165,7 @@ export const projects: Project[] = [
   },
   {
     slug: "review-intelligence",
+    category: "NLP",
     title: "Enterprise Review Intelligence",
     role: "Multi-model NLP system",
     tagline:
@@ -176,6 +183,7 @@ export const projects: Project[] = [
   },
   {
     slug: "alzheimers-mri",
+    category: "Research",
     title: "Alzheimer's Detection from Brain MRI",
     role: "Deep-learning research · IEEE EMBS",
     tagline:
@@ -399,3 +407,70 @@ export const bio = {
     "I build things that ship, not demos that die in notebooks.",
   ],
 } as const;
+
+// ─── Portfolio-page content (Lumora-style layout) ───────────────────────────
+
+// Display order for the work grid (best evidence first).
+export const workOrder = [
+  "pixa-agent",
+  "tradexa",
+  "drone-security-analyst",
+  "smart-lecture-analyzer",
+  "alzheimers-mri",
+  "review-intelligence",
+  "acadflip-diggen",
+];
+
+export const heroCards = [
+  { caption: "Agents", title: "Reviewable by design." },
+  { caption: "RAG & LLM apps", title: "Grounded, not guessed." },
+  { caption: "ML research", title: "Evaluated honestly." },
+];
+
+// Real affiliations only — shown under "Experience · recognition".
+export const affiliations = [
+  "Pixaflip",
+  "IEEE EMBS",
+  "FlytBase",
+  "DP World",
+  "BITS Pilani",
+  "ICCTVB-25",
+  "NVIDIA",
+];
+
+export const expertise = [
+  {
+    title: "GenAI & LLM applications",
+    text: "RAG, structured output, and guardrails that hold up in production.",
+  },
+  {
+    title: "Autonomous agents",
+    text: "Tool-calling agents with approval flows, memory, and audit trails.",
+  },
+  {
+    title: "Machine-learning research",
+    text: "Leakage-free evaluation, external validation, and explainability.",
+  },
+  {
+    title: "Backend & MLOps",
+    text: "FastAPI services, Docker, and CI-gated test suites.",
+  },
+];
+
+export type Stat = {
+  value: number;
+  prefix?: string;
+  suffix?: string;
+  label: string;
+};
+
+export const stats: Stat[] = [
+  { value: 181, label: "Automated tests, CI-gated on every push, in Pixa Agent" },
+  {
+    value: 25,
+    prefix: "Top ",
+    label: "Finish among 600+ teams at the DP World × BITS Pilani hackathon",
+  },
+  { value: 5, suffix: "/5", label: "Score on the FlytBase drone-agent benchmark" },
+  { value: 2, label: "Internships: Pixaflip (software) and IEEE EMBS (research)" },
+];
